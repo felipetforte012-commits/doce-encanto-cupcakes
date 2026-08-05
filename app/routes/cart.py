@@ -1,0 +1,167 @@
+from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask_login import login_required, current_user
+from app import db
+from app.models import Produto, Pedido, ItemPedido
+
+cart_bp = Blueprint("cart", __name__)
+
+TAXA_ENTREGA_PADRAO = 8.00
+QUANTIDADE_MINIMA_POR_SABOR = 6  # RN07
+
+
+def _get_carrinho():
+    return session.setdefault("carrinho", {})
+
+
+@cart_bp.route("/carrinho/adicionar/<int:produto_id>", methods=["POST"])
+def adicionar_ao_carrinho(produto_id):
+    """US07 - Adicionar itens ao carrinho"""
+    produto = Produto.query.get_or_404(produto_id)
+    quantidade = request.form.get("quantidade", type=int, default=QUANTIDADE_MINIMA_POR_SABOR)
+
+    if quantidade < QUANTIDADE_MINIMA_POR_SABOR:
+        flash(f"Quantidade mínima por sabor é {QUANTIDADE_MINIMA_POR_SABOR} unidades.", "warning")  # RN07
+        return redirect(url_for("main.produto_detalhe", produto_id=produto_id))
+
+    if not produto.disponivel() or produto.estoque < quantidade:
+        flash("Quantidade indisponível em estoque.", "warning")  # CA1
+        return redirect(url_for("main.produto_detalhe", produto_id=produto_id))
+
+    carrinho = _get_carrinho()
+    chave = str(produto_id)
+    carrinho[chave] = carrinho.get(chave, 0) + quantidade
+    session.modified = True
+
+    flash(f"{produto.nome} adicionado ao carrinho.", "success")
+    return redirect(url_for("cart.ver_carrinho"))
+
+
+@cart_bp.route("/carrinho/remover/<int:produto_id>", methods=["POST"])
+def remover_do_carrinho(produto_id):
+    """US09 - Editar ou remover itens do carrinho"""
+    carrinho = _get_carrinho()
+    carrinho.pop(str(produto_id), None)
+    session.modified = True
+    flash("Item removido do carrinho.", "info")
+    return redirect(url_for("cart.ver_carrinho"))
+
+
+@cart_bp.route("/carrinho/atualizar/<int:produto_id>", methods=["POST"])
+def atualizar_carrinho(produto_id):
+    """US09 - Editar itens do carrinho"""
+    nova_quantidade = request.form.get("quantidade", type=int)
+    carrinho = _get_carrinho()
+
+    if nova_quantidade is None or nova_quantidade < QUANTIDADE_MINIMA_POR_SABOR:
+        flash(f"Quantidade mínima por sabor é {QUANTIDADE_MINIMA_POR_SABOR} unidades.", "warning")
+    else:
+        carrinho[str(produto_id)] = nova_quantidade
+        session.modified = True
+        flash("Carrinho atualizado.", "success")
+
+    return redirect(url_for("cart.ver_carrinho"))
+
+
+def _montar_itens_carrinho():
+    carrinho = _get_carrinho()
+    itens = []
+    subtotal = 0.0
+    for produto_id_str, quantidade in carrinho.items():
+        produto = db.session.get(Produto, int(produto_id_str))
+        if not produto:
+            continue
+        item_subtotal = float(produto.preco) * quantidade
+        subtotal += item_subtotal
+        itens.append({"produto": produto, "quantidade": quantidade, "item_subtotal": item_subtotal})
+    return itens, subtotal
+
+
+@cart_bp.route("/carrinho")
+def ver_carrinho():
+    """US09 / US10 - Ver e editar carrinho"""
+    itens, subtotal = _montar_itens_carrinho()
+    return render_template("carrinho.html", itens=itens, subtotal=subtotal)
+
+
+@cart_bp.route("/checkout", methods=["GET", "POST"])
+@login_required
+def checkout():
+    """US10 - Resumo do pedido / US08 / US11 / US14 - Entrega e pagamento"""
+    itens, subtotal = _montar_itens_carrinho()
+
+    if not itens:
+        flash("Seu carrinho está vazio.", "warning")
+        return redirect(url_for("cart.ver_carrinho"))
+
+    if request.method == "POST":
+        tipo_entrega = request.form.get("tipo_entrega", "entrega")  # US14
+        endereco = request.form.get("endereco", "").strip()
+        forma_pagamento = request.form.get("forma_pagamento", "cartao")  # US11
+        mensagem_presente = request.form.get("mensagem_presente", "").strip()[:200]  # CA2 US08
+
+        if tipo_entrega == "entrega" and not endereco:
+            flash("Informe o endereço de entrega ou escolha retirada na loja.", "warning")
+            return render_template(
+                "checkout.html", itens=itens, subtotal=subtotal, taxa_entrega=TAXA_ENTREGA_PADRAO
+            )
+
+        taxa_entrega = TAXA_ENTREGA_PADRAO if tipo_entrega == "entrega" else 0.0
+        total = subtotal + taxa_entrega
+
+        pedido = Pedido(
+            cliente_id=current_user.id,
+            status="novo",
+            tipo_entrega=tipo_entrega,
+            endereco_entrega=endereco if tipo_entrega == "entrega" else None,
+            forma_pagamento=forma_pagamento,
+            status_pagamento="aprovado",  # simulação de gateway de pagamento (US11/US12)
+            subtotal=subtotal,
+            taxa_entrega=taxa_entrega,
+            total=total,
+            mensagem_presente=mensagem_presente or None,
+        )
+        db.session.add(pedido)
+        db.session.flush()  # obtém pedido.id antes do commit
+
+        for item in itens:
+            produto = item["produto"]
+            produto.estoque -= item["quantidade"]
+            db.session.add(
+                ItemPedido(
+                    pedido_id=pedido.id,
+                    produto_id=produto.id,
+                    quantidade=item["quantidade"],
+                    preco_unitario=produto.preco,
+                )
+            )
+
+        db.session.commit()
+        session["carrinho"] = {}
+        session.modified = True
+
+        flash("Pagamento aprovado! Pedido confirmado com sucesso.", "success")  # US12
+        return redirect(url_for("cart.detalhe_pedido", pedido_id=pedido.id))
+
+    return render_template("checkout.html", itens=itens, subtotal=subtotal, taxa_entrega=TAXA_ENTREGA_PADRAO)
+
+
+@cart_bp.route("/pedidos")
+@login_required
+def meus_pedidos():
+    """US15 - Acompanhar status do pedido"""
+    pedidos = (
+        Pedido.query.filter_by(cliente_id=current_user.id)
+        .order_by(Pedido.criado_em.desc())
+        .all()
+    )
+    return render_template("pedidos.html", pedidos=pedidos)
+
+
+@cart_bp.route("/pedidos/<int:pedido_id>")
+@login_required
+def detalhe_pedido(pedido_id):
+    pedido = Pedido.query.get_or_404(pedido_id)
+    if pedido.cliente_id != current_user.id and not current_user.is_admin:
+        flash("Você não tem permissão para ver este pedido.", "danger")
+        return redirect(url_for("cart.meus_pedidos"))
+    return render_template("pedido_detalhe.html", pedido=pedido)

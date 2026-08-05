@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }}{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Pedido #{{ pedido.id }}</h1>
+
+<div class="row">
+  <div class="col-md-7">
+    <table class="table">
+      <thead><tr><th>Produto</th><th>Qtd.</th><th>Preço unit.</th><th>Subtotal</th></tr></thead>
+      <tbody>
+        {% for item in pedido.itens %}
+          <tr>
+            <td>{{ item.produto.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+            <td>R$ {{ "%.2f"|format(item.subtotal_item()) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Status: <span class="badge bg-info text-dark">{{ pedido.status }}</span></h5>
+        <p><strong>Tipo de entrega:</strong> {{ pedido.tipo_entrega }}</p>
+        {% if pedido.endereco_entrega %}<p><strong>Endereço:</strong> {{ pedido.endereco_entrega }}</p>{% endif %}
+        <p><strong>Pagamento:</strong> {{ pedido.forma_pagamento }} ({{ pedido.status_pagamento }})</p>
+        {% if pedido.mensagem_presente %}<p><strong>Dedicatória:</strong> {{ pedido.mensagem_presente }}</p>{% endif %}
+        <hr>
+        <p class="d-flex justify-content-between"><span>Subtotal</span><span>R$ {{ "%.2f"|format(pedido.subtotal) }}</span></p>
+        <p class="d-flex justify-content-between"><span>Taxa de entrega</span><span>R$ {{ "%.2f"|format(pedido.taxa_entrega) }}</span></p>
+        <p class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span>R$ {{ "%.2f"|format(pedido.total) }}</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

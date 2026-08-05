@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ produto.nome }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-5">
+    <img src="{{ produto.foto_url or 'https://via.placeholder.com/400x300?text=Cupcake' }}" class="img-fluid rounded" alt="{{ produto.nome }}">
+  </div>
+  <div class="col-md-7">
+    <h1>{{ produto.nome }}</h1>
+    <p class="text-muted">Sabor: {{ produto.sabor }} &middot; Categoria: {{ produto.categoria.nome }}</p>
+    <p class="fs-4 fw-bold">R$ {{ "%.2f"|format(produto.preco) }}</p>
+    <p>{{ produto.descricao or "Cupcake artesanal feito com ingredientes selecionados." }}</p>
+
+    {% if produto.alergenos %}
+      <div class="alert alert-warning">
+        <strong>Alérgenos:</strong> {{ produto.alergenos }}
+      </div>
+    {% endif %}
+
+    {% if produto.disponivel() %}
+      <form method="post" action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}" class="row g-2 align-items-center">
+        <div class="col-auto">
+          <label class="form-label mb-0">Quantidade (mín. 6)</label>
+          <input type="number" name="quantidade" value="6" min="6" class="form-control" style="width:120px;">
+        </div>
+        <div class="col-auto align-self-end">
+          <button type="submit" class="btn" style="background-color:#c2185b;color:white;">Adicionar ao carrinho</button>
+        </div>
+      </form>
+    {% else %}
+      <p class="text-danger fw-bold">Produto esgotado no momento.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
