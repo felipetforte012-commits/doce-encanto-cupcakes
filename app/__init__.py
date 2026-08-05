@@ -11,7 +11,7 @@ login_manager.login_message = "Faça login para continuar."
 def create_app(config_object="config.Config"):
     app = Flask(__name__)
     app.config.from_object(config_object)
-
+   
     db.init_app(app)
     login_manager.init_app(app)
 
