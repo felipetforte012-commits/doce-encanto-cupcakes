@@ -11,7 +11,13 @@ login_manager.login_message = "Faça login para continuar."
 def create_app(config_object="config.Config"):
     app = Flask(__name__)
     app.config.from_object(config_object)
-   
+
+    if not app.config.get("SECRET_KEY"):
+        raise RuntimeError(
+            "SECRET_KEY não definida. Em produção (Render), cadastre a variável "
+            "de ambiente SECRET_KEY no painel do serviço."
+        )
+
     db.init_app(app)
     login_manager.init_app(app)
 

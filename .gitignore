@@ -1,5 +1,6 @@
 # Ambiente virtual
 .venv/
+.venv-*/
 venv/
 
 # Cache do Python
@@ -27,5 +28,9 @@ Thumbs.db
 .pytest_cache/
 .mypy_cache/
 
-# Certificados
+# Certificados e chaves privadas
 *.pem
+*.key
+# Exceção: certificado PÚBLICO da autoridade ISRG Root X1 (Let's Encrypt),
+# necessário para validar o TLS do TiDB Cloud no servidor. Não é segredo.
+!certs/isrgrootx1.pem
