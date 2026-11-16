@@ -2,14 +2,22 @@
 {% block title %}{{ produto.nome }}{% endblock %}
 
 {% block content %}
-<div class="row">
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}">Vitrine</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ produto.nome }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
   <div class="col-md-5">
-    <img src="{{ produto.foto_url or 'https://via.placeholder.com/400x300?text=Cupcake' }}" class="img-fluid rounded" alt="{{ produto.nome }}">
+    <img src="{{ produto.foto_url or url_for('static', filename='img/cupcake.svg') }}" class="img-fluid rounded" alt="{{ produto.nome }}"
+         onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cupcake.svg') }}';">
   </div>
   <div class="col-md-7">
     <h1>{{ produto.nome }}</h1>
     <p class="text-muted">Sabor: {{ produto.sabor }} &middot; Categoria: {{ produto.categoria.nome }}</p>
-    <p class="fs-4 fw-bold">R$ {{ "%.2f"|format(produto.preco) }}</p>
+    <p class="fs-4 fw-bold">{{ produto.preco|brl }} <small class="text-muted fs-6 fw-normal">por unidade</small></p>
     <p>{{ produto.descricao or "Cupcake artesanal feito com ingredientes selecionados." }}</p>
 
     {% if produto.alergenos %}
@@ -19,13 +27,15 @@
     {% endif %}
 
     {% if produto.disponivel() %}
-      <form method="post" action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}" class="row g-2 align-items-center">
+      <p class="text-muted small mb-2">Em estoque: {{ produto.estoque }} unidade(s). Pedido mínimo de 6 unidades por sabor.</p>
+      <form method="post" action="{{ url_for('cart.adicionar_ao_carrinho', produto_id=produto.id) }}" class="row g-2 align-items-end">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <div class="col-auto">
-          <label class="form-label mb-0">Quantidade (mín. 6)</label>
-          <input type="number" name="quantidade" value="6" min="6" class="form-control" style="width:120px;">
+          <label for="quantidade" class="form-label mb-0">Quantidade (mín. 6)</label>
+          <input id="quantidade" type="number" name="quantidade" value="6" min="6" max="{{ produto.estoque }}" class="form-control" style="width:120px;" required>
         </div>
-        <div class="col-auto align-self-end">
-          <button type="submit" class="btn" style="background-color:#c2185b;color:white;">Adicionar ao carrinho</button>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-doce">Adicionar ao carrinho</button>
         </div>
       </form>
     {% else %}

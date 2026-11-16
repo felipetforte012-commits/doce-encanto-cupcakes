@@ -1,6 +1,11 @@
 -- ============================================================
 -- Projeto Físico do Banco de Dados — Doce Encanto Cupcakes
--- SGBD: MySQL 8+
+-- SGBD: MySQL 8+ / TiDB Cloud (compatível com MySQL)
+--
+-- ATENÇÃO (TiDB): com a variável tidb_enable_check_constraint = OFF
+-- (padrão), o TiDB aceita as cláusulas CHECK abaixo mas NÃO as aplica.
+-- Por isso todas essas regras também são validadas na aplicação
+-- (app/routes/*.py e app/models.py), que é a garantia efetiva.
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS doce_encanto CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

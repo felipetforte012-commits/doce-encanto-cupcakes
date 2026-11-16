@@ -1,5 +1,32 @@
+:root {
+  --cor-marca: #c2185b;
+  --cor-marca-escura: #9c1249;
+}
+
 body {
   background-color: #fff8f4;
+}
+
+.navbar-doce {
+  background-color: var(--cor-marca);
+}
+
+.navbar-brand {
+  font-size: 1.4rem;
+}
+
+/* Botão principal da loja (substitui os estilos inline repetidos) */
+.btn-doce {
+  background-color: var(--cor-marca);
+  border-color: var(--cor-marca);
+  color: #fff;
+}
+
+.btn-doce:hover,
+.btn-doce:focus {
+  background-color: var(--cor-marca-escura);
+  border-color: var(--cor-marca-escura);
+  color: #fff;
 }
 
 .card-produto img {
@@ -7,12 +34,13 @@ body {
   object-fit: cover;
 }
 
-.navbar-brand {
-  font-size: 1.4rem;
-}
-
 .badge-esgotado {
   position: absolute;
   top: 10px;
   right: 10px;
+}
+
+/* Tabelas largas rolam dentro do próprio quadro no celular */
+.tabela-responsiva {
+  overflow-x: auto;
 }

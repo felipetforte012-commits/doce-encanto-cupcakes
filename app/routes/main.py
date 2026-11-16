@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request
-from app.models import Produto, Categoria
+
+from app import db
+from app.models import Categoria, Produto
 
 main_bp = Blueprint("main", __name__)
 
@@ -16,7 +18,7 @@ def index():
         query = query.filter_by(categoria_id=categoria_id)
     if sabor:
         query = query.filter(Produto.sabor.ilike(f"%{sabor}%"))
-    if preco_max:
+    if preco_max is not None and preco_max > 0:
         query = query.filter(Produto.preco <= preco_max)
 
     produtos = query.order_by(Produto.nome).all()
@@ -35,5 +37,5 @@ def index():
 @main_bp.route("/produto/<int:produto_id>")
 def produto_detalhe(produto_id):
     """US04 / US06 - Ver detalhes, alérgenos e informações do produto"""
-    produto = Produto.query.get_or_404(produto_id)
+    produto = db.get_or_404(Produto, produto_id)
     return render_template("produto.html", produto=produto)

@@ -4,9 +4,10 @@
 {% block content %}
 <h1 class="mb-4">Nossa vitrine 🧁</h1>
 
-<form method="get" class="row g-2 mb-4">
+<form method="get" class="row g-2 mb-4" aria-label="Filtros da vitrine">
   <div class="col-md-3">
-    <select name="categoria" class="form-select" onchange="this.form.submit()">
+    <label for="filtroCategoria" class="visually-hidden">Categoria</label>
+    <select id="filtroCategoria" name="categoria" class="form-select" onchange="this.form.submit()">
       <option value="">Todas as categorias</option>
       {% for c in categorias %}
         <option value="{{ c.id }}" {% if categoria_id == c.id %}selected{% endif %}>{{ c.nome }}</option>
@@ -14,29 +15,35 @@
     </select>
   </div>
   <div class="col-md-3">
-    <input type="text" name="sabor" class="form-control" placeholder="Filtrar por sabor" value="{{ sabor or '' }}">
+    <label for="filtroSabor" class="visually-hidden">Sabor</label>
+    <input id="filtroSabor" type="text" name="sabor" class="form-control" placeholder="Filtrar por sabor" value="{{ sabor or '' }}">
   </div>
   <div class="col-md-3">
-    <input type="number" step="0.01" name="preco_max" class="form-control" placeholder="Preço máximo" value="{{ preco_max or '' }}">
+    <label for="filtroPreco" class="visually-hidden">Preço máximo</label>
+    <input id="filtroPreco" type="number" step="0.01" min="0" name="preco_max" class="form-control" placeholder="Preço máximo (R$)" value="{{ preco_max or '' }}">
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 d-flex gap-2">
     <button class="btn btn-outline-secondary w-100" type="submit">Filtrar</button>
+    {% if categoria_id or sabor or preco_max %}
+      <a class="btn btn-link" href="{{ url_for('main.index') }}">Limpar</a>
+    {% endif %}
   </div>
 </form>
 
 <div class="row g-4">
   {% for produto in produtos %}
-    <div class="col-md-4">
+    <div class="col-sm-6 col-md-4">
       <div class="card card-produto h-100 position-relative">
         {% if not produto.disponivel() %}
           <span class="badge bg-secondary badge-esgotado">Esgotado</span>
         {% endif %}
-        <img src="{{ produto.foto_url or 'https://via.placeholder.com/300x180?text=Cupcake' }}" class="card-img-top" alt="{{ produto.nome }}">
+        <img src="{{ produto.foto_url or url_for('static', filename='img/cupcake.svg') }}" class="card-img-top" alt="{{ produto.nome }}"
+             onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cupcake.svg') }}';">
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ produto.nome }}</h5>
+          <h2 class="card-title h5">{{ produto.nome }}</h2>
           <p class="card-text text-muted mb-1">Sabor: {{ produto.sabor }}</p>
-          <p class="card-text fw-bold">R$ {{ "%.2f"|format(produto.preco) }}</p>
-          <a href="{{ url_for('main.produto_detalhe', produto_id=produto.id) }}" class="btn btn-sm mt-auto" style="background-color:#c2185b;color:white;">Ver detalhes</a>
+          <p class="card-text fw-bold">{{ produto.preco|brl }} <small class="text-muted fw-normal">/ unidade</small></p>
+          <a href="{{ url_for('main.produto_detalhe', produto_id=produto.id) }}" class="btn btn-sm btn-doce mt-auto">Ver detalhes</a>
         </div>
       </div>
     </div>

@@ -4,62 +4,72 @@
 {% block content %}
 <h1 class="mb-4">Finalizar compra</h1>
 
-<div class="row">
+{% set tipo_escolhido = form.get('tipo_entrega', 'entrega') %}
+<div class="row g-4">
   <div class="col-md-7">
-    <form method="post">
-      <h5>Entrega</h5>
+    <form method="post" id="formCheckout">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+      <h2 class="h5">Entrega</h2>
       <div class="mb-3">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="tipo_entrega" value="entrega" id="tipoEntrega" checked>
-          <label class="form-check-label" for="tipoEntrega">Entrega no endereço</label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="tipo_entrega" value="retirada" id="tipoRetirada">
-          <label class="form-check-label" for="tipoRetirada">Retirar na loja</label>
-        </div>
+        {% for valor, rotulo in tipos_entrega.items() %}
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="tipo_entrega" value="{{ valor }}" id="tipo_{{ valor }}"
+                   {% if tipo_escolhido == valor %}checked{% endif %}>
+            <label class="form-check-label" for="tipo_{{ valor }}">{{ rotulo }}</label>
+          </div>
+        {% endfor %}
       </div>
-      <div class="mb-3">
-        <label class="form-label">Endereço de entrega</label>
-        <input type="text" name="endereco" class="form-control" placeholder="Rua, número, bairro, cidade">
+      <div class="mb-3" id="blocoEndereco">
+        <label for="endereco" class="form-label">Endereço de entrega</label>
+        <input id="endereco" type="text" name="endereco" class="form-control" maxlength="255"
+               placeholder="Rua, número, bairro, cidade" value="{{ form.get('endereco', '') }}">
       </div>
 
-      <h5>Personalização</h5>
+      <h2 class="h5">Personalização</h2>
       <div class="mb-3">
-        <label class="form-label">Mensagem de presente (opcional, até 200 caracteres)</label>
-        <textarea name="mensagem_presente" class="form-control" maxlength="200"></textarea>
+        <label for="mensagem" class="form-label">Mensagem de presente (opcional, até 200 caracteres)</label>
+        <textarea id="mensagem" name="mensagem_presente" class="form-control" maxlength="200">{{ form.get('mensagem_presente', '') }}</textarea>
       </div>
 
-      <h5>Pagamento</h5>
+      <h2 class="h5">Pagamento</h2>
       <div class="mb-3">
-        <select name="forma_pagamento" class="form-select">
-          <option value="cartao">Cartão de crédito</option>
-          <option value="pix">Pix</option>
-          <option value="boleto">Boleto</option>
+        <label for="pagamento" class="visually-hidden">Forma de pagamento</label>
+        <select id="pagamento" name="forma_pagamento" class="form-select">
+          {% for valor, rotulo in formas_pagamento.items() %}
+            <option value="{{ valor }}" {% if form.get('forma_pagamento') == valor %}selected{% endif %}>{{ rotulo }}</option>
+          {% endfor %}
         </select>
+        <div class="form-text">Pagamento simulado para fins acadêmicos: nenhuma cobrança real é feita.</div>
       </div>
 
-      <button type="submit" class="btn btn-lg w-100" style="background-color:#c2185b;color:white;">Confirmar e pagar</button>
+      <button type="submit" class="btn btn-lg w-100 btn-doce" id="btnConfirmar">Confirmar e pagar</button>
     </form>
   </div>
 
   <div class="col-md-5">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Resumo do pedido</h5>
+        <h2 class="card-title h5">Resumo do pedido</h2>
         <ul class="list-group list-group-flush mb-3">
           {% for item in itens %}
             <li class="list-group-item d-flex justify-content-between">
               <span>{{ item.produto.nome }} x{{ item.quantidade }}</span>
-              <span>R$ {{ "%.2f"|format(item.item_subtotal) }}</span>
+              <span>{{ item.item_subtotal|brl }}</span>
             </li>
           {% endfor %}
         </ul>
-        <p class="d-flex justify-content-between"><span>Subtotal</span><span>R$ {{ "%.2f"|format(subtotal) }}</span></p>
-        <p class="d-flex justify-content-between"><span>Taxa de entrega (estimada)</span><span>R$ {{ "%.2f"|format(taxa_entrega) }}</span></p>
+        <p class="d-flex justify-content-between"><span>Subtotal</span><span>{{ subtotal|brl }}</span></p>
+        <p class="d-flex justify-content-between"><span>Taxa de entrega</span><span id="valorTaxa">{{ taxa_entrega|brl }}</span></p>
         <hr>
-        <p class="d-flex justify-content-between fw-bold fs-5"><span>Total estimado</span><span>R$ {{ "%.2f"|format(subtotal + taxa_entrega) }}</span></p>
+        <p class="d-flex justify-content-between fw-bold fs-5"><span>Total</span><span id="valorTotal">{{ (subtotal + taxa_entrega)|brl }}</span></p>
       </div>
     </div>
   </div>
 </div>
+<div id="dadosCheckout" data-subtotal="{{ subtotal }}" data-taxa="{{ taxa_entrega }}" hidden></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/checkout.js') }}"></script>
 {% endblock %}

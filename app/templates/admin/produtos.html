@@ -2,36 +2,46 @@
 {% block title %}Admin - Produtos{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h1>Gerenciar produtos</h1>
-  <a href="{{ url_for('admin.novo_produto') }}" class="btn" style="background-color:#c2185b;color:white;">+ Novo produto</a>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <h1 class="mb-0">Gerenciar produtos</h1>
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('admin.listar_pedidos') }}" class="btn btn-outline-secondary">Ver pedidos recebidos</a>
+    <a href="{{ url_for('admin.novo_produto') }}" class="btn btn-doce">+ Novo produto</a>
+  </div>
 </div>
 
-<table class="table align-middle">
-  <thead>
-    <tr><th>Nome</th><th>Sabor</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th></th></tr>
-  </thead>
-  <tbody>
-    {% for produto in produtos %}
-      <tr>
-        <td>{{ produto.nome }}</td>
-        <td>{{ produto.sabor }}</td>
-        <td>{{ produto.categoria.nome }}</td>
-        <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
-        <td>{{ produto.estoque }}</td>
-        <td>
-          {% if produto.ativo %}<span class="badge bg-success">Ativo</span>{% else %}<span class="badge bg-secondary">Inativo</span>{% endif %}
-        </td>
-        <td class="d-flex gap-2">
-          <a href="{{ url_for('admin.editar_produto', produto_id=produto.id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
-          {% if produto.ativo %}
-            <form method="post" action="{{ url_for('admin.remover_produto', produto_id=produto.id) }}" onsubmit="return confirm('Remover este produto da vitrine?');">
-              <button class="btn btn-sm btn-outline-danger" type="submit">Remover</button>
-            </form>
-          {% endif %}
-        </td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="tabela-responsiva">
+  <table class="table align-middle">
+    <thead>
+      <tr><th>Nome</th><th>Sabor</th><th>Categoria</th><th>Preço</th><th>Estoque</th><th>Status</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for produto in produtos %}
+        <tr>
+          <td>{{ produto.nome }}</td>
+          <td>{{ produto.sabor }}</td>
+          <td>{{ produto.categoria.nome }}</td>
+          <td>{{ produto.preco|brl }}</td>
+          <td>{{ produto.estoque }}</td>
+          <td>
+            {% if produto.ativo %}<span class="badge bg-success">Ativo</span>{% else %}<span class="badge bg-secondary">Inativo</span>{% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{{ url_for('admin.editar_produto', produto_id=produto.id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+              {% if produto.ativo %}
+                <form method="post" action="{{ url_for('admin.remover_produto', produto_id=produto.id) }}" onsubmit="return confirm('Remover este produto da vitrine? O histórico de pedidos é mantido e você pode reativá-lo em Editar.');">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Remover</button>
+                </form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7" class="text-muted">Nenhum produto cadastrado.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock %}
