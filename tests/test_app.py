@@ -1,49 +1,56 @@
-import pytest
-from app import create_app, db
-from app.models import Cliente, Categoria, Produto
+"""Testes de integração: vitrine, cadastro, login e acesso ao admin.
+(Fixtures em tests/conftest.py)"""
+from app import db
+from app.models import Categoria, Cliente, Produto
 
 
-class TestConfig:
-    SECRET_KEY = "teste"
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    WTF_CSRF_ENABLED = False
-    TESTING = True
-
-
-@pytest.fixture
-def app():
-    app = create_app(TestConfig)
-    with app.app_context():
-        db.create_all()
-
-        categoria = Categoria(nome="Doces")
-        db.session.add(categoria)
-        db.session.commit()
-
-        produto = Produto(
-            nome="Cupcake Teste", sabor="Baunilha", categoria_id=categoria.id,
-            preco=6.0, estoque=50, foto_url="http://teste.com/img.png"
-        )
-        db.session.add(produto)
-        db.session.commit()
-
-        yield app
-
-        db.session.remove()
-        db.drop_all()
-
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
-
-
-# ---------- US04 - Vitrine ----------
+# ---------- US04 / US05 - Vitrine e filtros ----------
 def test_vitrine_lista_produtos(client):
     resp = client.get("/")
     assert resp.status_code == 200
     assert b"Cupcake Teste" in resp.data
+
+
+def test_vitrine_nao_mostra_produto_inativo(client, app, produto_id):
+    with app.app_context():
+        db.session.get(Produto, produto_id).ativo = False
+        db.session.commit()
+    assert b"Cupcake Teste" not in client.get("/").data
+
+
+def test_vitrine_filtra_por_sabor_categoria_e_preco(client, app):
+    with app.app_context():
+        salgados = Categoria(nome="Salgados")
+        db.session.add(salgados)
+        db.session.commit()
+        db.session.add(Produto(nome="Cupcake Frango", sabor="Frango", categoria_id=salgados.id,
+                               preco=9.0, estoque=10, foto_url="http://x/y.png"))
+        db.session.commit()
+        salgados_id = salgados.id
+
+    por_sabor = client.get("/?sabor=frang").get_data(as_text=True)
+    assert "Cupcake Frango" in por_sabor and "Cupcake Teste" not in por_sabor
+
+    por_categoria = client.get(f"/?categoria={salgados_id}").get_data(as_text=True)
+    assert "Cupcake Frango" in por_categoria and "Cupcake Teste" not in por_categoria
+
+    por_preco = client.get("/?preco_max=7").get_data(as_text=True)
+    assert "Cupcake Teste" in por_preco and "Cupcake Frango" not in por_preco
+
+
+def test_detalhe_produto_mostra_alergenos(client, app, produto_id):
+    """US06 - Informações e alérgenos"""
+    with app.app_context():
+        db.session.get(Produto, produto_id).alergenos = "glúten, lactose"
+        db.session.commit()
+    html = client.get(f"/produto/{produto_id}").get_data(as_text=True)
+    assert "Alérgenos" in html and "glúten, lactose" in html
+
+
+def test_produto_inexistente_retorna_pagina_404_amigavel(client):
+    resp = client.get("/produto/9999")
+    assert resp.status_code == 404
+    assert "Página não encontrada" in resp.get_data(as_text=True)
 
 
 # ---------- US01 - Cadastro ----------
@@ -56,6 +63,14 @@ def test_cadastro_sucesso(client):
         assert Cliente.query.filter_by(email="felipe@teste.com").first() is not None
 
 
+def test_cadastro_guarda_senha_com_hash(client):
+    client.post("/cadastro", data={"nome": "A", "email": "hash@teste.com", "senha": "12345678"})
+    with client.application.app_context():
+        cliente = Cliente.query.filter_by(email="hash@teste.com").first()
+        assert cliente.senha_hash != "12345678"
+        assert cliente.checar_senha("12345678")
+
+
 def test_cadastro_senha_curta_e_rejeitado(client):
     resp = client.post("/cadastro", data={
         "nome": "Felipe Teste", "email": "felipe2@teste.com", "senha": "123"
@@ -65,83 +80,57 @@ def test_cadastro_senha_curta_e_rejeitado(client):
         assert Cliente.query.filter_by(email="felipe2@teste.com").first() is None
 
 
-def test_cadastro_email_duplicado_e_rejeitado(client, app):
-    with app.app_context():
-        c = Cliente(nome="Existente", email="dup@teste.com")
-        c.set_senha("12345678")
-        db.session.add(c)
-        db.session.commit()
+def test_cadastro_email_invalido_e_rejeitado(client):
+    resp = client.post("/cadastro", data={"nome": "A", "email": "sem-arroba", "senha": "12345678"})
+    assert "e-mail válido" in resp.get_data(as_text=True)
 
+
+def test_cadastro_email_duplicado_e_rejeitado(client, criar_cliente):
+    criar_cliente(email="dup@teste.com")
     resp = client.post("/cadastro", data={
         "nome": "Outro", "email": "dup@teste.com", "senha": "12345678"
     })
     assert "já está cadastrado".encode("utf-8") in resp.data
 
 
-# ---------- US02 - Login ----------
-def test_login_sucesso(client, app):
-    with app.app_context():
-        c = Cliente(nome="Felipe", email="login@teste.com")
-        c.set_senha("12345678")
-        db.session.add(c)
-        db.session.commit()
+def test_cadastro_email_duplicado_ignora_maiusculas(client, criar_cliente):
+    criar_cliente(email="dup@teste.com")
+    resp = client.post("/cadastro", data={"nome": "Outro", "email": "DUP@Teste.com", "senha": "12345678"})
+    assert "já está cadastrado" in resp.get_data(as_text=True)
 
+
+# ---------- US02 - Login / logout ----------
+def test_login_sucesso(client, criar_cliente):
+    criar_cliente(email="login@teste.com")
     resp = client.post("/login", data={"email": "login@teste.com", "senha": "12345678"}, follow_redirects=True)
     assert "Bem-vindo".encode("utf-8") in resp.data
 
 
-def test_login_senha_invalida(client, app):
-    with app.app_context():
-        c = Cliente(nome="Felipe", email="login2@teste.com")
-        c.set_senha("12345678")
-        db.session.add(c)
-        db.session.commit()
-
+def test_login_senha_invalida(client, criar_cliente):
+    criar_cliente(email="login2@teste.com")
     resp = client.post("/login", data={"email": "login2@teste.com", "senha": "errada"})
     assert "inválidos" in resp.get_data(as_text=True)
 
 
-# ---------- US07 - Carrinho ----------
-def test_adicionar_ao_carrinho_respeita_minimo(client, app):
-    with app.app_context():
-        produto = Produto.query.first()
-        produto_id = produto.id
-
-    resp = client.post(f"/carrinho/adicionar/{produto_id}", data={"quantidade": 2}, follow_redirects=True)
-    assert "mínima por sabor" in resp.get_data(as_text=True)
+def test_logout_encerra_sessao(client, cliente_logado):
+    resp = client.post("/logout", follow_redirects=True)
+    assert "Você saiu da sua conta" in resp.get_data(as_text=True)
+    assert client.get("/pedidos").status_code == 302  # volta a exigir login
 
 
-def test_adicionar_ao_carrinho_sucesso(client, app):
-    with app.app_context():
-        produto_id = Produto.query.first().id
-
-    resp = client.post(f"/carrinho/adicionar/{produto_id}", data={"quantidade": 6}, follow_redirects=True)
-    assert resp.status_code == 200
-    with client.session_transaction() as sess:
-        assert sess["carrinho"][str(produto_id)] == 6
-
-
-# ---------- US17 - Admin (controle de acesso) ----------
-def test_admin_area_bloqueada_para_nao_admin(client, app):
-    with app.app_context():
-        c = Cliente(nome="Cliente Comum", email="comum@teste.com")
-        c.set_senha("12345678")
-        db.session.add(c)
-        db.session.commit()
-
-    client.post("/login", data={"email": "comum@teste.com", "senha": "12345678"})
+# ---------- US17 / RN11 - Admin (controle de acesso) ----------
+def test_admin_area_bloqueada_para_nao_admin(client, cliente_logado):
     resp = client.get("/admin/produtos", follow_redirects=True)
     assert "restrito ao administrador".encode("utf-8") in resp.data
 
 
-def test_admin_area_acessivel_para_admin(client, app):
-    with app.app_context():
-        c = Cliente(nome="Admin", email="admin2@teste.com", is_admin=True)
-        c.set_senha("12345678")
-        db.session.add(c)
-        db.session.commit()
+def test_admin_area_bloqueada_para_visitante(client):
+    resp = client.get("/admin/pedidos")
+    assert resp.status_code == 302
+    assert "/login" in resp.headers["Location"]
 
-    client.post("/login", data={"email": "admin2@teste.com", "senha": "12345678"})
+
+def test_admin_area_acessivel_para_admin(client, admin_logado):
     resp = client.get("/admin/produtos")
     assert resp.status_code == 200
     assert "Gerenciar produtos".encode("utf-8") in resp.data
