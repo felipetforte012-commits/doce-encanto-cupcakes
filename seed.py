@@ -2,6 +2,8 @@
 Script para popular o banco de dados com dados iniciais (categorias, produtos e um usuário admin).
 Execute com: python seed.py
 """
+import os
+
 from app import create_app, db
 from app.models import Cliente, Categoria, Produto
 
@@ -44,10 +46,17 @@ with app.app_context():
         print("Categorias e produtos de exemplo criados.")
 
     if not Cliente.query.filter_by(email="admin@doceencanto.com").first():
+        # Em produção defina ADMIN_SENHA (ou troque depois com definir_senha_admin.py):
+        # a senha padrão abaixo é pública no repositório e serve só para uso local.
+        senha_admin = os.environ.get("ADMIN_SENHA") or "admin12345"
         admin = Cliente(nome="Administrador da Loja", email="admin@doceencanto.com", is_admin=True)
-        admin.set_senha("admin12345")
+        admin.set_senha(senha_admin)
         db.session.add(admin)
         db.session.commit()
-        print("Usuário admin criado -> email: admin@doceencanto.com | senha: admin12345")
+        if os.environ.get("ADMIN_SENHA"):
+            print("Usuário admin criado -> email: admin@doceencanto.com (senha definida em ADMIN_SENHA)")
+        else:
+            print("Usuário admin criado -> email: admin@doceencanto.com | senha: admin12345 "
+                  "(TROQUE com: python definir_senha_admin.py)")
 
     print("Banco de dados populado com sucesso.")
