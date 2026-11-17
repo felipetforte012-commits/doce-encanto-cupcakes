@@ -111,34 +111,22 @@ O texto entre aspas é uma **sugestão de fala**: adapte com suas palavras.
 
 ## Vídeo 2 — Solução atualizada / mudanças adotadas (até 5 minutos)
 
-Grave **depois** de receber os 5 formulários e fazer as correções.
-Use o [relatório das avaliações](S3-testes-e-validacao/03-relatorio-das-avaliacoes.md) como guia.
+Mostra só o que **de fato mudou** (versão final, de acordo com o laudo). Alvo: 3 a 4 minutos.
 
-### 1. Introdução (20 s)
-> "Neste vídeo mostro o que mudou no Doce Encanto depois da revisão do projeto e dos testes
-> feitos por cinco colegas."
+| Tempo | O que FAZER na tela | O que FALAR |
+|---|---|---|
+| 0:00–0:20 | Mostre a vitrine | "Olá, sou *[seu nome]*, RGM *[seu RGM]*. Neste vídeo mostro as modificações feitas no Doce Encanto depois da revisão do projeto e dos testes com cinco usuários." |
+| 0:20–0:50 | Escolha a categoria **Diet/Sem Açúcar** (aparece o Diet Baunilha) | "No teste, a Ana procurava um cupcake sem açúcar e, no filtro Diet, apareceu o cupcake de frango, porque as categorias estavam trocadas. Corrigi as categorias: agora o filtro Diet mostra o Diet Baunilha." |
+| 0:50–1:10 | Escolha **Salgados** (aparece o Frango) | "E o Frango com Catupiry voltou para Salgados. Também repus o estoque que tinha zerado com as compras dos testes." |
+| 1:10–1:50 | Aperte **F12** → ícone de celular → mostre o menu **☰** e o botão **🔍 Filtros** | "No celular, o menu não aparecia. Agora tem o botão de menu. Os filtros ocupavam meia tela, e agora ficam recolhidos neste botão, para os cupcakes aparecerem primeiro." |
+| 1:50–2:10 | Ainda no celular, abra um produto | "A foto do produto ocupava a tela inteira e escondia o botão Adicionar. Agora a foto é menor e o botão aparece logo." |
+| 2:10–2:40 | Volte ao computador (F12 de novo). Tente adicionar mais do que o estoque | "Antes era possível colocar no carrinho mais do que havia em estoque. Agora o sistema bloqueia e mostra quanto ainda existe." |
+| 2:40–3:10 | Admin: Produtos → **Editar** → apague o **Preço** → **Salvar** → **Cancelar** | "Salvar um produto sem preço dava erro no sistema. Agora aparece uma mensagem clara e nada é alterado." |
+| 3:10–3:30 | Mostre **Meus pedidos** ou **Admin: Pedidos** | "Os status aparecem com nomes claros e cores, as datas no horário de Brasília e os valores em reais." |
+| 3:30–4:00 | Abra no GitHub o `docs/S3-testes-e-validacao/05-laudo-de-qualidade.md` | "Os outros pontos apontados pelos usuários, como recuperação de senha, agendamento de entrega e busca sem acento, ficaram registrados no laudo de qualidade para a próxima versão. Obrigado!" |
 
-### 2. Revisão técnica — melhoria contínua (1 a 1,5 min)
-Mostre rapidamente **antes → depois** (já está feito):
-
-| Mostrar | Fala sugerida |
-|---|---|
-| Menu ☰ no modo celular | "O menu sumia no celular. Agora tem o botão de menu." |
-| Tentar adicionar mais que o estoque | "Era possível comprar mais do que o estoque. Agora o sistema bloqueia." |
-| Admin: formulário com preço vazio | "Salvar um produto sem preço dava erro. Agora aparece uma mensagem clara." |
-| Cancelar pedido | "Cancelar não devolvia o estoque. Agora devolve." |
-| Datas e valores | "As datas aparecem no horário de Brasília e os valores no padrão R$ 0,00." |
-| Terminal com os testes passando *(opcional)* | "Os testes passaram de 10 para 119." |
-
-### 3. Feedback dos colegas (1 a 2 min)
-Para cada item da tabela "Mudanças adotadas" do relatório:
-> "O(a) colega *[nome]* apontou que *[problema]*. Eu corrigi assim: *[mostrar na tela]*."
-
-E para o que **não** foi corrigido:
-> "A sugestão de *[x]* ficou para uma próxima versão, porque *[motivo]*."
-
-### 4. Encerramento (20 s)
-> "Essas mudanças estão documentadas no GitHub, na pasta docs. Obrigado!"
+> ⚠️ Não diga que as **fotos** foram corrigidas: elas continuam pendentes (F02 no laudo).
+> No passo do "Salvar sem preço", clique em **Cancelar** depois do aviso, para não alterar o produto.
 
 ---
 
