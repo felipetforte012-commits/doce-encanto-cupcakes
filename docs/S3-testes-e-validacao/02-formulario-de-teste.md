@@ -26,9 +26,9 @@ com sinceridade, o que funcionou e o que não funcionou. **Erros encontrados aju
 
 | Campo | Resposta |
 |---|---|
-| Nome de quem testou | |
+| **Nome** | |
+| **Data do teste** | ___/___/2026 |
 | Curso ou profissão | |
-| Data do teste | ___/___/2026 |
 | Dispositivo | ☐ Computador ☐ Celular ☐ Tablet |
 | Navegador | ☐ Chrome ☐ Edge ☐ Firefox ☐ Safari ☐ Outro: ______ |
 
@@ -56,14 +56,14 @@ Em "Observações", explique o que aconteceu, principalmente se algo não funcio
 | 15 | *(Admin)* Mudar o status de um pedido e conferir como cliente | | | | |
 | 16 | *(Admin)* Cancelar um pedido | | | | |
 
-## 3. O que você testou e FUNCIONOU
+## 3. O que testou e funcionou
 Descreva as funcionalidades que funcionaram como esperado.
 
 &nbsp;
 
 &nbsp;
 
-## 4. O que você testou e NÃO FUNCIONOU
+## 4. O que testou e não funcionou – O que deve ser corrigido
 Para cada problema: **o que você fez**, **o que aconteceu** e **o que deveria ter acontecido**
 (o que precisa ser corrigido).
 
@@ -73,7 +73,7 @@ Para cada problema: **o que você fez**, **o que aconteceu** e **o que deveria t
 | | | | |
 | | | | |
 
-## 5. Funcionalidades NÃO TESTADAS
+## 5. Funcionalidade não testada (faltou ou não foi implementada)
 Diga o que você não testou e **por quê** (faltou tempo? não encontrou a opção? não tinha acesso?).
 Se você procurou uma funcionalidade e ela **não existe** no sistema, informe aqui também.
 
