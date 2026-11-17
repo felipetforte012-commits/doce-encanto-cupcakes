@@ -82,7 +82,7 @@ o que serve de evidência da realização dos testes.
 
 | ID | Relatado por | Problema | Tipo | Gravidade | Decisão |
 |---|---|---|---|---|---|
-| F01 | Ana | Categorias trocadas (Diet Baunilha em Salgados; Frango em Diet) | Bug (dados) | Alta | Corrigir pelo painel do admin |
+| F01 | Ana | Categorias trocadas (Diet Baunilha em Salgados; Frango em Diet) | Bug (dados) | Alta | ✅ Corrigido pelo painel do admin (17/11/2026) |
 | F02 | Teste geral | Fotos erradas (Diet Baunilha igual ao Chocolate Belga; Frango com foto de cupcake doce) | Bug (dados) | Alta | Corrigir pelo painel do admin |
 | F03 | Teste geral | Busca sem acento não encontra ("limao" ≠ "limão") | Bug | Alta | Corrigir no código |
 | F04 | Maria | Falta "Esqueci minha senha" | Melhoria | Média | Avaliar (depende de envio de e-mail) |
@@ -100,11 +100,24 @@ o que serve de evidência da realização dos testes.
 | F16 | Teste geral | Primeira visita demora ~1 min (Render gratuito) | Infraestrutura | Baixa | Documentar |
 
 ## 5. Mudanças adotadas
-*(Preencher à medida que as correções forem feitas: ID, o que mudou, arquivo, commit.)*
 
-| ID | O que foi alterado | Arquivo(s) | Commit |
+| ID | O que foi alterado | Onde | Registro |
 |---|---|---|---|
-| | | | |
+| F01 | Categorias corrigidas: Diet Baunilha → Diet/Sem Açúcar; Frango com Catupiry → Salgados; Chocolate Belga → Doces | Painel do administrador (dados) | 17/11/2026 – evidência E05 no laudo |
+| — | Estoque reposto (Chocolate Belga e Diet Baunilha, zerados pelas compras dos testes) | Painel do administrador (dados) | 17/11/2026 |
+| PT03–PT06 | Correções do pré-teste interno publicadas: foto do produto menor e filtros recolhíveis no celular, mensagem de número inteiro na quantidade, link "Ver detalhes" acessível | `app/templates`, `app/static/css`, `app/routes/cart.py` | Commit `171f938` |
+
+Os demais pontos (F02 a F16) estão registrados no [Laudo de Qualidade](05-laudo-de-qualidade.md)
+com a situação de cada um: pendente, melhoria futura ou documentado.
 
 ## 6. Conclusão
-*(Escrever após as correções.)*
+Os 5 participantes concluíram compras completas, com perfis e objetivos diferentes (presente,
+compra rápida, produto sem açúcar, festa e uso no computador). Isso valida o fluxo principal da
+loja: vitrine, carrinho, cadastro, pagamento simulado, entrega ou retirada e acompanhamento do pedido.
+Os controles de segurança e de estoque funcionaram em todos os casos testados.
+
+Os testes mostraram principalmente **problemas de dados e de clareza**, e não falhas de
+funcionamento. O erro mais grave (categorias trocadas, que levaria uma cliente que procura
+produto sem açúcar a um cupcake de frango) foi corrigido logo após os testes. As sugestões de
+recuperação de senha, agendamento de entrega e pagamento pendente para Pix e boleto ficaram
+registradas como melhorias para uma próxima versão.

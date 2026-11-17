@@ -48,8 +48,8 @@ Gravidade: **Alta** = informação errada ao cliente; **Média** = atrapalha a t
 
 | ID | Problema | Quem encontrou | Gravidade | Evidência | Correção | Situação |
 |---|---|---|---|---|---|---|
-| F01 | Categorias trocadas: "Diet Baunilha" em *Salgados* e "Frango com Catupiry" em *Diet/Sem Açúcar* | Ana Paula Costa | Alta | E02 | Ajustar a categoria dos 2 produtos no painel do admin | ⏳ Pendente |
-| F02 | Fotos erradas: Diet Baunilha igual à do Chocolate Belga; Frango com foto de cupcake doce | Teste moderado | Alta | E01 | Trocar as URLs das fotos no painel do admin | ⏳ Pendente |
+| F01 | Categorias trocadas: "Diet Baunilha" em *Salgados* e "Frango com Catupiry" em *Diet/Sem Açúcar* | Ana Paula Costa | Alta | E02 (antes), E05 (depois) | Categorias ajustadas no painel do admin em 17/11/2026 | ✅ Corrigido |
+| F02 | Fotos erradas: Diet Baunilha igual à do Chocolate Belga; Frango com foto de cupcake doce | Teste moderado | Alta | E01 | Trocar as URLs das fotos no painel do admin | ⏳ Pendente (decisão do responsável: manter as fotos atuais nesta versão) |
 | F03 | Busca não encontra palavra sem acento ("limao" ≠ "limão") | Teste moderado | Alta | E03, E04 | Comparar sem acentos na busca | ⏳ Pendente |
 | F04 | Falta "Esqueci minha senha" (primeira conta da participante Maria ficou inacessível) | Maria das Graças Silva | Média | Contas registradas em 17/11 01:06 e 01:08 | Recuperação de senha (exige envio de e-mail) | 📌 Melhoria futura |
 | F05 | Aviso de erro do cadastro continua na tela após corrigir o campo | Teste moderado | Baixa | — | Esconder o aviso ao editar o campo | ⏳ Pendente |
@@ -65,7 +65,14 @@ Gravidade: **Alta** = informação errada ao cliente; **Média** = atrapalha a t
 | F15 | Produtos esgotados aparecem primeiro na vitrine | Teste moderado | Baixa | E01 | Ordenar os disponíveis primeiro | ⏳ Pendente |
 | F16 | Primeira visita leva ~1 min (servidor gratuito em repouso) | Teste moderado | Baixa | — | Limitação do plano gratuito do Render; aviso no manual e no formulário | ℹ️ Documentado |
 
-### Correções já aplicadas a partir do pré-teste interno (commit `171f938`)
+### Ajustes de dados feitos após os testes (17/11/2026, pelo painel do administrador)
+
+| Ajuste | Resultado |
+|---|---|
+| F01: categorias corrigidas | Diet Baunilha em *Diet/Sem Açúcar*; Frango com Catupiry em *Salgados*; Chocolate Belga em *Doces* (E05) |
+| Reposição de estoque após os testes | Chocolate Belga e Diet Baunilha, que haviam zerado com as compras dos participantes, voltaram a 24 unidades cada |
+
+### Correções já aplicadas a partir do pré-teste interno (commit `171f938`, publicadas em 17/11/2026)
 
 | ID | Correção |
 |---|---|
@@ -82,6 +89,7 @@ Gravidade: **Alta** = informação errada ao cliente; **Média** = atrapalha a t
 | E02 | [`evidencias/E02-filtro-diet-mostra-frango.png`](evidencias/E02-filtro-diet-mostra-frango.png) | Filtro "Diet/Sem Açúcar" exibindo o Cupcake Frango com Catupiry |
 | E03 | [`evidencias/E03-busca-limao-sem-acento-sem-resultado.png`](evidencias/E03-busca-limao-sem-acento-sem-resultado.png) | Busca "limao" sem resultado |
 | E04 | [`evidencias/E04-busca-limao-com-acento-funciona.png`](evidencias/E04-busca-limao-com-acento-funciona.png) | Busca "limão" encontra o Cupcake Limão Siciliano |
+| E05 | [`evidencias/E05-filtro-diet-corrigido.png`](evidencias/E05-filtro-diet-corrigido.png) | Depois da correção F01: o filtro "Diet/Sem Açúcar" mostra o Cupcake Diet Baunilha |
 | — | Banco de dados (pedidos #60001 a #120003) | Realização das 5 compras, com data e hora |
 
 Capturas feitas em 17/11/2026, no site publicado.
@@ -90,9 +98,8 @@ Capturas feitas em 17/11/2026, no site publicado.
 
 O sistema **cumpre a sua finalidade**: os 5 participantes concluíram compras completas, e os
 controles de segurança, de estoque e de validação funcionaram como especificado. A avaliação
-encontrou **3 erros com informação errada ao cliente** (F01, F02 e F03). Dois deles são de dados
-cadastrados (F01 e F02) e se corrigem pelo painel do administrador, sem alterar o código.
+encontrou **3 erros com informação errada ao cliente** (F01, F02 e F03). O F01 (categorias) já
+foi corrigido; F02 (fotos) e F03 (busca sem acento) continuam pendentes.
 
-**Parecer: aprovado com ressalvas.** As ressalvas são a correção de F01, F02 e F03 e das
-melhorias de usabilidade de gravidade média (F05 a F10, F14 e F15) antes da apresentação.
-F04, F11 e F12 ficam registradas como melhorias futuras.
+**Parecer: aprovado com ressalvas.** As ressalvas são F02, F03 e as melhorias de usabilidade
+pendentes (F05 a F10, F14 e F15). F04, F11 e F12 ficam registradas como melhorias futuras.
