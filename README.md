@@ -18,7 +18,7 @@ Software II** — Cruzeiro do Sul Virtual.
 - **Autenticação:** Flask-Login, senhas com hash (Werkzeug)
 - **Segurança:** proteção CSRF (Flask-WTF), cookies HttpOnly/Secure, segredos em variáveis de ambiente
 - **Front-end:** HTML + Bootstrap 5 (CDN) + Jinja2 + JavaScript
-- **Testes:** pytest (back-end e HTML) + `node --test` (JavaScript): **106 testes**
+- **Testes:** pytest (back-end e HTML) + `node --test` (JavaScript): **110 testes**
 - **Hospedagem:** Render (plano gratuito)
 
 ## Estrutura do projeto (MVC)

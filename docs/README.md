@@ -29,7 +29,7 @@ Código-fonte: [`app/`](../app/) (MVC) · Testes: [`tests/`](../tests/).
 
 | Documento | Conteúdo |
 |---|---|
-| [01 – Plano e relatório de testes](S3-testes-e-validacao/01-plano-de-testes.md) | Modelo V, verificação, validação, 27 casos de teste, resultado (106/106) e defeitos corrigidos |
+| [01 – Plano e relatório de testes](S3-testes-e-validacao/01-plano-de-testes.md) | Modelo V, verificação, validação, 27 casos de teste, resultado (110/110) e defeitos corrigidos |
 | [02 – Formulário de teste](S3-testes-e-validacao/02-formulario-de-teste.md) | Para enviar aos 5 colegas testadores |
 | [03 – Relatório das avaliações](S3-testes-e-validacao/03-relatorio-das-avaliacoes.md) | Modelo para consolidar as 5 avaliações (entregar em PDF) |
 

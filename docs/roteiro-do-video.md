@@ -94,7 +94,7 @@ O texto entre aspas é uma **sugestão de fala**: adapte com suas palavras.
 
 ### 4:40 – 5:00 · Qualidade e encerramento
 **Ações:** mostrar o repositório no GitHub (pasta `docs/` e pasta `tests/`).
-> "O projeto tem 106 testes automatizados, de back-end e de front-end, e toda a documentação
+> "O projeto tem 110 testes automatizados, de back-end e de front-end, e toda a documentação
 > fica no GitHub: requisitos, diagramas UML, banco de dados, manual e plano de testes.
 > Obrigado!"
 
@@ -119,7 +119,7 @@ Mostre rapidamente **antes → depois** (já está feito):
 | Admin: formulário com preço vazio | "Salvar um produto sem preço dava erro. Agora aparece uma mensagem clara." |
 | Cancelar pedido | "Cancelar não devolvia o estoque. Agora devolve." |
 | Datas e valores | "As datas aparecem no horário de Brasília e os valores no padrão R$ 0,00." |
-| Terminal com os testes passando *(opcional)* | "Os testes passaram de 10 para 106." |
+| Terminal com os testes passando *(opcional)* | "Os testes passaram de 10 para 110." |
 
 ### 3. Feedback dos colegas (1 a 2 min)
 Para cada item da tabela "Mudanças adotadas" do relatório:

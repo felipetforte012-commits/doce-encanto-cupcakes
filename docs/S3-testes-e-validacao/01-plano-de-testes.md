@@ -48,7 +48,7 @@ Para rodá-lo sozinho: `node --test tests/js/checkout.test.mjs`.
 
 ## 6. Resultado da execução automatizada
 
-**Data:** 16/11/2026 · **Resultado: 106 testes executados, 106 aprovados, 0 falhas.**
+**Data:** 16/11/2026 · **Resultado: 110 testes executados, 110 aprovados, 0 falhas.**
 
 | Arquivo | Nível | Qtd. | O que cobre |
 |---|---|---|---|
@@ -59,8 +59,9 @@ Para rodá-lo sozinho: `node --test tests/js/checkout.test.mjs`.
 | `test_frontend.py` | Integração (View) | 13 | Menu no celular, CSRF em todos os formulários, acessibilidade, R$, imagem padrão, execução do teste JS |
 | `test_models.py` | Unitário | 7 | Disponibilidade, estoque, cancelamento, rótulos, R$, horário de Brasília |
 | `test_config.py` | Unitário | 6 | URL do banco, certificado TLS do TiDB, SECRET_KEY obrigatória |
+| `test_definir_senha_admin.py` | Integração | 4 | Criação/troca da senha do administrador, sem duplicar usuário; senha curta ou diferente não altera nada |
 | `js/checkout.test.mjs` | Unitário (front-end) | 5* | Taxa/total ao trocar entrega↔retirada, campo endereço, botão contra clique duplo |
-| **Total** | | **106** | |
+| **Total** | | **110** | |
 
 \* Os 5 casos de JavaScript são executados por 1 teste do pytest (`test_javascript_do_checkout_com_node`), já contado em `test_frontend.py`.
 
@@ -106,7 +107,7 @@ Preencha a coluna "Manual" com ✅/❌ e a data.
 |---|---|---|---|---|
 | D01 | Conexão com TiDB dependia de pasta do PC do desenvolvedor (já apagada) | Alta | Fase 1 | `test_certificado_do_tidb_esta_no_projeto` |
 | D02 | Chave secreta padrão pública permitia forjar sessão de admin | Alta | Fase 1 | `test_app_nao_sobe_sem_secret_key` |
-| D03 | Senha padrão do admin pública no README | Alta | Fase 4 (`definir_senha_admin.py`) | — (procedimento manual) |
+| D03 | Senha padrão do admin pública no README; banco de produção sem nenhum administrador | Alta | Fase 4 (`definir_senha_admin.py` cria/troca o admin com senha privada) | `test_cria_admin_quando_nao_existe`, `test_troca_senha_de_admin_existente` |
 | D04 | Menu inacessível no celular | Alta | Fase 2 | `test_menu_tem_botao_para_celular` |
 | D05 | Estoque podia ficar negativo | Alta | Fase 2 | CT09, CT10, CT16 |
 | D06 | Erro 500 ao editar produto com preço vazio | Média | Fase 2 | `test_admin_editar_com_preco_vazio_nao_quebra_e_nao_altera` |
@@ -126,7 +127,7 @@ Preencha a coluna "Manual" com ✅/❌ e a data.
 
 ## 10. Critérios de aceite da entrega
 
-- 100% dos testes automatizados aprovados. ✅ (106/106)
+- 100% dos testes automatizados aprovados. ✅ (110/110)
 - Nenhum defeito de severidade alta em aberto.
 - Casos CT01–CT27 executados manualmente no site publicado.
 - 5 avaliações recebidas e analisadas; cada problema relatado com decisão registrada (corrigido, não reproduzido ou adiado com justificativa).
