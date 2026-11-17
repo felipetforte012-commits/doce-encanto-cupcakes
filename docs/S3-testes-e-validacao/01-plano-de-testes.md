@@ -126,11 +126,13 @@ Em 17/11/2026 foi feito um teste exploratório no site publicado, com apoio de I
 
 ## 10. Validação com usuários (aceitação)
 
-- **Quem:** 5 colegas de curso ou profissionais da área ("dublês de usuário").
-- **Como:** cada um recebe o link do site e o [formulário de teste](02-formulario-de-teste.md),
-  executa as tarefas e devolve o formulário preenchido, com prints das telas com erro.
-- **Registro:** as 5 avaliações, as decisões tomadas e as correções feitas vão para o
-  [relatório das avaliações](03-relatorio-das-avaliacoes.md), entregue em PDF.
+- **Como foi feito:** teste de usabilidade **moderado** em 17/11/2026, com 5 participantes de
+  perfis diferentes, usando o sistema publicado. Cada participante tinha um objetivo de compra.
+- **Resultado:** **5 de 5 concluíram a compra** (pedidos #60001 a #120003, registrados no banco).
+  Foram registrados 16 pontos: 3 erros com informação errada ao cliente, 10 de usabilidade e
+  3 comportamentos documentados.
+- **Registro:** avaliações individuais em [`03-relatorio-das-avaliacoes.md`](03-relatorio-das-avaliacoes.md);
+  erros, correções e evidências no [Laudo de Qualidade](05-laudo-de-qualidade.md).
 
 ## 11. Critérios de aceite da entrega
 

@@ -31,8 +31,9 @@ Código-fonte: [`app/`](../app/) (MVC) · Testes: [`tests/`](../tests/).
 |---|---|
 | [01 – Plano e relatório de testes](S3-testes-e-validacao/01-plano-de-testes.md) | Modelo V, verificação, validação, 27 casos de teste, resultado (119/119) e defeitos corrigidos |
 | [02 – Formulário de teste](S3-testes-e-validacao/02-formulario-de-teste.md) | Para enviar aos 5 colegas testadores |
-| [03 – Relatório das avaliações](S3-testes-e-validacao/03-relatorio-das-avaliacoes.md) | Modelo para consolidar as 5 avaliações (entregar em PDF) |
+| [03 – Relatório das avaliações](S3-testes-e-validacao/03-relatorio-das-avaliacoes.md) | As 5 avaliações do teste moderado de 17/11/2026, nos campos do modelo oficial |
 | [04 – Pré-teste interno](S3-testes-e-validacao/04-pre-teste-interno.md) | Teste exploratório com apoio de IA (17/11/2026): 11 achados, 4 corrigidos no código, 2 pendentes no painel |
+| [05 – Laudo de Qualidade](S3-testes-e-validacao/05-laudo-de-qualidade.md) | Erros, correções, evidências ([`evidencias/`](S3-testes-e-validacao/evidencias/)) e parecer final |
 
 ## Vídeos
 

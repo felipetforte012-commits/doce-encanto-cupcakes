@@ -27,9 +27,9 @@ o que serve de evidência da realização dos testes.
 |---|---|---|---|---|
 | 1 | Maria das Graças Silva, 58 anos | Avó, compra presente | 6 Chocolate Belga, entrega, Pix, mensagem para a neta | #60001 – R$ 50,00 – 17/11/2026 01:10 |
 | 2 | Lucas Oliveira, 22 anos | Estudante com pressa | Carrinho sem conta, criou conta no meio da compra, retirada, cartão | #90001 – R$ 90,00 – 17/11/2026 01:15 |
-| 3 | Ana Paula Costa | Procura cupcake sem açúcar para a mãe | Filtro Diet, removeu item, mensagem longa, boleto | #120001 – R$ 50,00 – 17/11/2026 01:21 |
+| 3 | Ana Paula Costa | Procura cupcake sem açúcar para a mãe | Filtro Diet, removeu 6 Red Velvet, comprou 6 Diet Baunilha, mensagem longa, boleto | #120001 – R$ 50,00 – 17/11/2026 01:21 |
 | 4 | Roberto Mendes | Compra para uma festa | 36 cupcakes, limite de estoque, endereço incompleto | #120002 – R$ 260,00 – 17/11/2026 01:25 |
-| 5 | Isabelle *(sobrenome a confirmar)* | Usuária no computador (tela grande) | Quantidade quebrada, clique duplo em "Pagar", carrinho vazio, sair da conta | #120003 – R$ 36,00 – 17/11/2026 01:37 |
+| 5 | Isabelle *(sobrenome a confirmar)* | Usuária no computador (tela grande) | Quantidade 6.5 (bloqueada), clique duplo em "Pagar", carrinho vazio, sair da conta | #120003 – R$ 36,00 – 17/11/2026 01:37 |
 
 ## 3. Avaliações individuais (campos do modelo oficial)
 
@@ -56,9 +56,9 @@ o que serve de evidência da realização dos testes.
 |---|---|
 | **Nome** | Ana Paula Costa |
 | **Data do teste** | 17/11/2026 |
-| **O que testou e funcionou** | Removeu um item do carrinho; concluiu a compra com entrega e boleto (pedido #120001, R$ 50,00). |
+| **O que testou e funcionou** | Colocou 6 Red Velvet no carrinho e depois removeu o item; concluiu um único pedido de 6 Cupcakes Diet Baunilha, com entrega no endereço e pagamento por boleto (pedido #120001, R$ 50,00 com a taxa de entrega). |
 | **O que testou e não funcionou – O que deve ser corrigido** | (1) O filtro "Diet/Sem Açúcar" mostrou o Cupcake Frango com Catupiry, e o Diet Baunilha aparece como "Salgados": corrigir as categorias. (2) A mensagem de presente foi cortada no 200º caractere sem aviso (terminou em "…pelos n"): incluir contador de caracteres. (3) O boleto aparece como "Aprovado" na hora: mostrar "Aguardando pagamento". |
-| **Funcionalidade não testada (faltou ou não foi implementada)** | Retirada na loja, Pix e cartão não foram usados por ela. *(a confirmar)* |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Retirada na loja, Pix e cartão não foram usados por ela. |
 
 ### Avaliação 4
 | Campo | Registro |
@@ -74,8 +74,8 @@ o que serve de evidência da realização dos testes.
 |---|---|
 | **Nome** | Isabelle *(sobrenome a confirmar)* |
 | **Data do teste** | 17/11/2026 |
-| **O que testou e funcionou** | O clique duplo em "Pagar" não criou pedido repetido; com o carrinho vazio, o site impede a finalização; depois de sair da conta, não é possível ver pedidos; o layout ficou bom na tela grande do computador. Compra com retirada e Pix (pedido #120003, R$ 36,00). |
-| **O que testou e não funcionou – O que deve ser corrigido** | Testou quantidade com número quebrado. *(resultado a confirmar)* |
+| **O que testou e funcionou** | Digitou 6.5 na quantidade do Cupcake Limão Siciliano e o sistema bloqueou o valor decimal (nada foi para o carrinho); com 6, o item entrou normalmente. O clique duplo em "Pagar" não criou pedido repetido; com o carrinho vazio, o site impede a finalização; depois de sair da conta, não é possível ver pedidos; o layout ficou bom na tela grande do computador. Compra com retirada e Pix (pedido #120003, R$ 36,00). |
+| **O que testou e não funcionou – O que deve ser corrigido** | Nenhuma falha registrada nas funcionalidades testadas. |
 | **Funcionalidade não testada (faltou ou não foi implementada)** | Login com senha errada (o login salvo foi usado). Uso no celular. |
 
 ## 4. Problemas consolidados e decisão

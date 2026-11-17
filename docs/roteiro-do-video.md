@@ -7,9 +7,11 @@ O PDF da disciplina pede **dois vídeos**:
 | **1. Demonstração da solução** | Situação 2 e Situação 3 | O sistema funcionando, narrado por você |
 | **2. Mudanças adotadas** | Situação 3 ("vídeo que explicite quais mudanças foram adotadas") | O que mudou depois das revisões e das avaliações dos 5 colegas |
 
-> ⚠️ **Duração:** o PDF se contradiz. A Situação 3 diz "**até** cinco minutos" e o
-> "Problema em Foco" diz "**pelo menos** cinco minutos". Este roteiro tem **cerca de 5 minutos**,
-> o que atende às duas leituras. Se puder, confirme com o tutor.
+> ✅ **Duração (definida no documento oficial `PIT_atividade.docx`):**
+> - **Vídeo 1, narrado:** "no mínimo 5 min". Este roteiro tem **cerca de 6 minutos**, por segurança.
+> - **Vídeo 2, solução atualizada:** "até 5 minutos".
+>
+> Os dois são entregues **como link** (veja "Como publicar o vídeo" no final).
 
 ---
 
@@ -38,7 +40,7 @@ O PDF da disciplina pede **dois vídeos**:
 
 ---
 
-## Vídeo 1 — Demonstração (≈ 5 minutos)
+## Vídeo 1 — Demonstração narrada (mínimo 5 minutos; alvo ≈ 6 minutos)
 
 O texto entre aspas é uma **sugestão de fala**: adapte com suas palavras.
 
@@ -92,15 +94,22 @@ O texto entre aspas é uma **sugestão de fala**: adapte com suas palavras.
 **Ações:** apertar `F12` → clicar no ícone de celular (Toggle device toolbar) → mostrar o menu ☰. *(Ou gravar um trecho no celular.)*
 > "O site é responsivo: no celular, o menu fica nesse botão."
 
-### 4:40 – 5:00 · Qualidade e encerramento
-**Ações:** mostrar o repositório no GitHub (pasta `docs/` e pasta `tests/`).
-> "O projeto tem 119 testes automatizados, de back-end e de front-end, e toda a documentação
-> fica no GitHub: requisitos, diagramas UML, banco de dados, manual e plano de testes.
-> Obrigado!"
+### 4:40 – 5:30 · Arquitetura e banco de dados
+**Ações:** no GitHub, abrir `docs/S1-planejamento/03-diagramas-uml.md` (diagrama de classes) e
+`04-der-e-modelo-logico.md` (DER).
+> "A aplicação segue o padrão MVC: os models ficam em `app/models.py`, as telas em
+> `templates` e as rotas em `routes`. Este é o diagrama de classes e este é o DER do banco,
+> com as cinco tabelas: cliente, categoria, produto, pedido e item do pedido."
+
+### 5:30 – 6:00 · Qualidade e encerramento
+**Ações:** mostrar a pasta `tests/` e o `docs/S3-testes-e-validacao/05-laudo-de-qualidade.md`.
+> "O projeto tem 119 testes automatizados, de back-end e de front-end. O sistema também foi
+> testado por cinco pessoas, e todas concluíram a compra. O que elas encontraram está no laudo
+> de qualidade. Toda a documentação está no GitHub. Obrigado!"
 
 ---
 
-## Vídeo 2 — Mudanças adotadas (2 a 5 minutos)
+## Vídeo 2 — Solução atualizada / mudanças adotadas (até 5 minutos)
 
 Grave **depois** de receber os 5 formulários e fazer as correções.
 Use o [relatório das avaliações](S3-testes-e-validacao/03-relatorio-das-avaliacoes.md) como guia.
@@ -130,3 +139,20 @@ E para o que **não** foi corrigido:
 
 ### 4. Encerramento (20 s)
 > "Essas mudanças estão documentadas no GitHub, na pasta docs. Obrigado!"
+
+---
+
+## Como publicar o vídeo e pegar o link (YouTube, "Não listado")
+
+"Não listado" significa que só quem tem o link consegue ver: o vídeo não aparece em buscas.
+
+1. Abra **https://studio.youtube.com** e entre com sua conta Google.
+2. Clique em **Criar** (canto superior direito) → **Enviar vídeos**.
+3. Clique em **Selecionar arquivos** e escolha o vídeo (pasta **Vídeos → Capturas**).
+4. Em **Título**, escreva, por exemplo: "Doce Encanto Cupcakes – Demonstração (PIT Engenharia de Software II)".
+5. Em **Público**, marque **"Não, não é conteúdo para crianças"**. Clique em **Próxima** três vezes.
+6. Em **Visibilidade**, escolha **Não listado**. Clique em **Salvar**.
+7. Copie o **link do vídeo** que aparece na tela (começa com `https://youtu.be/`).
+8. Cole o link no `PIT_atividade.docx`:
+   - **Vídeo 1** → tabela "Codificação", linha "Link do vídeo narrado (no mínimo 5 min)".
+   - **Vídeo 2** → tabela "Vídeo da Solução atualizada", linha "Link para o vídeo".
