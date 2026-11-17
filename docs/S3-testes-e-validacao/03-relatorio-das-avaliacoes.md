@@ -1,92 +1,110 @@
 # Relatório das avaliações de usuários — Doce Encanto Cupcakes
 
-> **Modelo para preencher** e depois salvar em PDF para a entrega.
 > Situação-Problema 3: "entregue, em um arquivo PDF, as cinco opiniões/testes sobre seu
 > software [...] além de um vídeo que explicite quais mudanças foram adotadas".
+> Os campos de cada avaliação seguem o modelo oficial `PIT_atividade.docx` (seção "Testes da Solução").
+>
+> ⚠️ Itens marcados **(a confirmar)** não constam no registro do teste: confirme com a
+> participante ou o participante antes da entrega (ou remova).
 
 | Item | Informação |
 |---|---|
 | Projeto | Doce Encanto Cupcakes — Projeto Integrador Transdisciplinar em Engenharia de Software II |
-| Aluno(a) | |
+| Aluno(a) | *(preencher)* |
 | Endereço testado | https://doce-encanto-cupcakes.onrender.com |
 | Repositório | https://github.com/felipetforte012-commits/doce-encanto-cupcakes |
-| Período dos testes | ___/___/2026 a ___/___/2026 |
+| Data dos testes | **17/11/2026** (entre 01:06 e 01:37, conforme registros do banco de dados) |
 
 ## 1. Metodologia
-Cinco pessoas (colegas de curso ou profissionais da área) receberam o endereço do sistema e
-o formulário de teste (`02-formulario-de-teste.md`), com um roteiro de 16 tarefas. Cada
-avaliador registrou: nome, data, o que funcionou, o que não funcionou (e o que corrigir),
-o que não foi testado (e por quê), sugestões e prints das telas com erro.
-Os formulários preenchidos estão no **Anexo**.
+Teste de usabilidade **moderado**: cinco pessoas com perfis diferentes usaram o sistema
+publicado, cada uma com um objetivo de compra, enquanto o teste era conduzido e anotado.
+As ações ficaram registradas no banco de dados do sistema (contas e pedidos com data e hora),
+o que serve de evidência da realização dos testes.
 
-## 2. Resumo das avaliações
+## 2. Resumo
 
-| # | Avaliador(a) | Data | Dispositivo / navegador | Tarefas OK | Com problema | Não testadas | Nota geral (1–5) |
-|---|---|---|---|:-:|:-:|:-:|:-:|
-| 1 | | | | | | | |
-| 2 | | | | | | | |
-| 3 | | | | | | | |
-| 4 | | | | | | | |
-| 5 | | | | | | | |
+| # | Participante | Perfil | O que fez | Pedido (evidência) |
+|---|---|---|---|---|
+| 1 | Maria das Graças Silva, 58 anos | Avó, compra presente | 6 Chocolate Belga, entrega, Pix, mensagem para a neta | #60001 – R$ 50,00 – 17/11/2026 01:10 |
+| 2 | Lucas Oliveira, 22 anos | Estudante com pressa | Carrinho sem conta, criou conta no meio da compra, retirada, cartão | #90001 – R$ 90,00 – 17/11/2026 01:15 |
+| 3 | Ana Paula Costa | Procura cupcake sem açúcar para a mãe | Filtro Diet, removeu item, mensagem longa, boleto | #120001 – R$ 50,00 – 17/11/2026 01:21 |
+| 4 | Roberto Mendes | Compra para uma festa | 36 cupcakes, limite de estoque, endereço incompleto | #120002 – R$ 260,00 – 17/11/2026 01:25 |
+| 5 | Isabelle *(sobrenome a confirmar)* | Usuária no computador (tela grande) | Quantidade quebrada, clique duplo em "Pagar", carrinho vazio, sair da conta | #120003 – R$ 36,00 – 17/11/2026 01:37 |
 
-## 3. Avaliações individuais
+## 3. Avaliações individuais (campos do modelo oficial)
 
-*(Repita o bloco abaixo para cada um dos 5 avaliadores.)*
+### Avaliação 1
+| Campo | Registro |
+|---|---|
+| **Nome** | Maria das Graças Silva |
+| **Data do teste** | 17/11/2026 |
+| **O que testou e funcionou** | Compra completa de 6 Cupcakes Chocolate Belga com entrega no endereço e pagamento por Pix, com mensagem de presente para a neta (pedido #60001, R$ 50,00). |
+| **O que testou e não funcionou – O que deve ser corrigido** | Esqueceu a senha da primeira conta criada e não encontrou opção de recuperação, precisando criar outra conta. Corrigir: incluir "Esqueci minha senha". |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Recuperação de senha (não implementada). Retirada na loja, cartão e boleto não foram usados por ela. |
 
-### Avaliação 1 — *nome*
-- **Data do teste:**
-- **O que testou e funcionou:**
-- **O que testou e não funcionou (e o que deve ser corrigido):**
-- **Funcionalidades não testadas (e por quê):**
-- **Sugestões:**
+### Avaliação 2
+| Campo | Registro |
+|---|---|
+| **Nome** | Lucas Oliveira |
+| **Data do teste** | 17/11/2026 |
+| **O que testou e funcionou** | Montou o carrinho sem ter conta e o carrinho foi mantido depois de criar a conta; compra com retirada na loja e cartão (pedido #90001, R$ 90,00). Tentou abrir o pedido de outra pessoa e foi bloqueado. |
+| **O que testou e não funcionou – O que deve ser corrigido** | Ao criar a conta no meio da compra, o site o levou para a vitrine em vez de voltar ao pagamento, e foi preciso digitar e-mail e senha de novo. Corrigir: entrar automaticamente após o cadastro e voltar para a etapa em que estava. |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Entrega no endereço, Pix e boleto não foram usados por ele. |
 
-### Avaliação 2 — *nome*
-- **Data do teste:**
-- **O que testou e funcionou:**
-- **O que testou e não funcionou (e o que deve ser corrigido):**
-- **Funcionalidades não testadas (e por quê):**
-- **Sugestões:**
+### Avaliação 3
+| Campo | Registro |
+|---|---|
+| **Nome** | Ana Paula Costa |
+| **Data do teste** | 17/11/2026 |
+| **O que testou e funcionou** | Removeu um item do carrinho; concluiu a compra com entrega e boleto (pedido #120001, R$ 50,00). |
+| **O que testou e não funcionou – O que deve ser corrigido** | (1) O filtro "Diet/Sem Açúcar" mostrou o Cupcake Frango com Catupiry, e o Diet Baunilha aparece como "Salgados": corrigir as categorias. (2) A mensagem de presente foi cortada no 200º caractere sem aviso (terminou em "…pelos n"): incluir contador de caracteres. (3) O boleto aparece como "Aprovado" na hora: mostrar "Aguardando pagamento". |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Retirada na loja, Pix e cartão não foram usados por ela. *(a confirmar)* |
 
-### Avaliação 3 — *nome*
-- **Data do teste:**
-- **O que testou e funcionou:**
-- **O que testou e não funcionou (e o que deve ser corrigido):**
-- **Funcionalidades não testadas (e por quê):**
-- **Sugestões:**
+### Avaliação 4
+| Campo | Registro |
+|---|---|
+| **Nome** | Roberto Mendes |
+| **Data do teste** | 17/11/2026 |
+| **O que testou e funcionou** | Comprou 36 cupcakes para uma festa (pedido #120002, R$ 260,00); o site respeitou o limite de estoque, contando também o que já estava no carrinho. |
+| **O que testou e não funcionou – O que deve ser corrigido** | O site aceitou um endereço incompleto e não pede CEP: validar o endereço e incluir CEP. Não foi possível escolher data e horário da entrega para a festa: incluir agendamento. |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Agendamento de data/horário (não implementado). Retirada na loja não foi usada por ele. |
 
-### Avaliação 4 — *nome*
-- **Data do teste:**
-- **O que testou e funcionou:**
-- **O que testou e não funcionou (e o que deve ser corrigido):**
-- **Funcionalidades não testadas (e por quê):**
-- **Sugestões:**
+### Avaliação 5
+| Campo | Registro |
+|---|---|
+| **Nome** | Isabelle *(sobrenome a confirmar)* |
+| **Data do teste** | 17/11/2026 |
+| **O que testou e funcionou** | O clique duplo em "Pagar" não criou pedido repetido; com o carrinho vazio, o site impede a finalização; depois de sair da conta, não é possível ver pedidos; o layout ficou bom na tela grande do computador. Compra com retirada e Pix (pedido #120003, R$ 36,00). |
+| **O que testou e não funcionou – O que deve ser corrigido** | Testou quantidade com número quebrado. *(resultado a confirmar)* |
+| **Funcionalidade não testada (faltou ou não foi implementada)** | Login com senha errada (o login salvo foi usado). Uso no celular. |
 
-### Avaliação 5 — *nome*
-- **Data do teste:**
-- **O que testou e funcionou:**
-- **O que testou e não funcionou (e o que deve ser corrigido):**
-- **Funcionalidades não testadas (e por quê):**
-- **Sugestões:**
+## 4. Problemas consolidados e decisão
 
-## 4. Problemas e sugestões consolidados
-
-Junte aqui tudo o que foi relatado (o mesmo problema citado por várias pessoas entra uma vez só).
-
-| ID | Relatado por (nº) | Descrição | Tipo (bug / melhoria) | Gravidade (alta / média / baixa) | Decisão | Justificativa |
-|---|---|---|---|---|---|---|
-| F01 | | | | | ☐ Corrigido ☐ Não reproduzido ☐ Adiado | |
-| F02 | | | | | ☐ Corrigido ☐ Não reproduzido ☐ Adiado | |
-| F03 | | | | | ☐ Corrigido ☐ Não reproduzido ☐ Adiado | |
+| ID | Relatado por | Problema | Tipo | Gravidade | Decisão |
+|---|---|---|---|---|---|
+| F01 | Ana | Categorias trocadas (Diet Baunilha em Salgados; Frango em Diet) | Bug (dados) | Alta | Corrigir pelo painel do admin |
+| F02 | Teste geral | Fotos erradas (Diet Baunilha igual ao Chocolate Belga; Frango com foto de cupcake doce) | Bug (dados) | Alta | Corrigir pelo painel do admin |
+| F03 | Teste geral | Busca sem acento não encontra ("limao" ≠ "limão") | Bug | Alta | Corrigir no código |
+| F04 | Maria | Falta "Esqueci minha senha" | Melhoria | Média | Avaliar (depende de envio de e-mail) |
+| F05 | Teste geral | Aviso de erro do cadastro permanece após corrigir o campo | Usabilidade | Baixa | Corrigir no código |
+| F06 | Lucas | Após o cadastro não entra direto e não volta ao pagamento | Usabilidade | Média | Corrigir no código |
+| F07 | Ana | Mensagem de presente cortada sem aviso | Usabilidade | Média | Corrigir no código (contador) |
+| F08 | Teste geral | Celular: "Remover" cortado no carrinho; total abaixo do botão de pagar | Usabilidade | Média | Corrigir no código |
+| F09 | Teste geral | Retirada sem endereço/horário da loja | Usabilidade | Média | Corrigir no código |
+| F10 | Roberto | Endereço sem CEP e aceita "rua 5" | Usabilidade | Média | Corrigir no código |
+| F11 | Roberto | Sem escolha de data/horário | Melhoria | Média | Avaliar (exige nova coluna no banco) |
+| F12 | Ana | Pix/boleto "Aprovado" na hora | Melhoria | Baixa | Avaliar (muda fluxo do admin) |
+| F13 | Teste geral | Números de pedido pulam (#60001, #90001, #120001) | Comportamento do TiDB | Baixa | Documentar |
+| F14 | Teste geral | Mensagem de estoque é a padrão do navegador | Usabilidade | Baixa | Corrigir no código |
+| F15 | Teste geral | Produtos esgotados aparecem primeiro na vitrine | Usabilidade | Baixa | Corrigir no código |
+| F16 | Teste geral | Primeira visita demora ~1 min (Render gratuito) | Infraestrutura | Baixa | Documentar |
 
 ## 5. Mudanças adotadas
+*(Preencher à medida que as correções forem feitas: ID, o que mudou, arquivo, commit.)*
 
-| ID | O que foi alterado | Arquivo(s) | Commit no GitHub | Teste que comprova |
-|---|---|---|---|---|
-| F01 | | | | |
+| ID | O que foi alterado | Arquivo(s) | Commit |
+|---|---|---|---|
+| | | | |
 
 ## 6. Conclusão
-*(Escreva em 1 ou 2 parágrafos: o sistema atendeu às necessidades dos usuários? O que mais
-chamou a atenção? O que fica como melhoria futura? O que você aprendeu com os testes?)*
-
-## Anexo — Formulários preenchidos
-*(Cole aqui os 5 formulários recebidos, com os prints.)*
+*(Escrever após as correções.)*
