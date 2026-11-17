@@ -1,5 +1,12 @@
 # Formulário de teste — Doce Encanto Cupcakes
 
+> **Alinhado ao modelo oficial da faculdade** (arquivo `PIT_atividade.docx`, seção "Testes da
+> Solução"). As seções 1, 3, 4 e 5 usam exatamente os campos que serão copiados para o documento
+> de entrega: *Nome · Data do teste · O que testou e funcionou · O que testou e não funcionou –
+> O que deve ser corrigido · Funcionalidade não testada (faltou ou não foi implementada)*.
+> As demais seções (roteiro, sugestões, notas e prints) são extras que ajudam a montar o
+> **Laudo de Qualidade** com evidências.
+
 Olá! Obrigado por testar o meu projeto do **Projeto Integrador Transdisciplinar em
 Engenharia de Software II**. Use o sistema como se fosse um cliente de verdade e me diga,
 com sinceridade, o que funcionou e o que não funcionou. **Erros encontrados ajudam muito.**

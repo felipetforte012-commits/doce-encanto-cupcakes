@@ -48,20 +48,20 @@ Para rodá-lo sozinho: `node --test tests/js/checkout.test.mjs`.
 
 ## 6. Resultado da execução automatizada
 
-**Data:** 16/11/2026 · **Resultado: 110 testes executados, 110 aprovados, 0 falhas.**
+**Data:** 16/11/2026 · **Resultado: 119 testes executados, 119 aprovados, 0 falhas.**
 
 | Arquivo | Nível | Qtd. | O que cobre |
 |---|---|---|---|
 | `test_app.py` | Integração | 17 | Vitrine, filtros, detalhe, 404, cadastro, login, logout, acesso ao admin |
-| `test_carrinho_checkout.py` | Integração | 21 | Carrinho, estoque, checkout completo, entrega/retirada, validações, pedidos do cliente |
+| `test_carrinho_checkout.py` | Integração | 27 | Carrinho, estoque, checkout completo, entrega/retirada, validações, pedidos do cliente |
 | `test_admin.py` | Integração | 23 | Cadastro/edição/remoção de produtos (10 entradas inválidas), status e cancelamento de pedidos |
 | `test_seguranca.py` | Integração / unitário | 19 | CSRF, open redirect, logout por POST, cookie HttpOnly |
-| `test_frontend.py` | Integração (View) | 13 | Menu no celular, CSRF em todos os formulários, acessibilidade, R$, imagem padrão, execução do teste JS |
+| `test_frontend.py` | Integração (View) | 16 | Menu no celular, CSRF em todos os formulários, acessibilidade, R$, imagem padrão, execução do teste JS |
 | `test_models.py` | Unitário | 7 | Disponibilidade, estoque, cancelamento, rótulos, R$, horário de Brasília |
 | `test_config.py` | Unitário | 6 | URL do banco, certificado TLS do TiDB, SECRET_KEY obrigatória |
 | `test_definir_senha_admin.py` | Integração | 4 | Criação/troca da senha do administrador, sem duplicar usuário; senha curta ou diferente não altera nada |
 | `js/checkout.test.mjs` | Unitário (front-end) | 5* | Taxa/total ao trocar entrega↔retirada, campo endereço, botão contra clique duplo |
-| **Total** | | **110** | |
+| **Total** | | **119** | |
 
 \* Os 5 casos de JavaScript são executados por 1 teste do pytest (`test_javascript_do_checkout_com_node`), já contado em `test_frontend.py`.
 
@@ -117,7 +117,14 @@ Preencha a coluna "Manual" com ✅/❌ e a data.
 | D10 | Cancelamento não devolvia estoque | Média | Fase 2 | CT24 |
 | D11 | Datas em UTC (3 h adiantadas), status técnicos, taxa errada na retirada (tela), imagem padrão fora do ar | Baixa | Fase 2 | `test_data_convertida_para_horario_de_brasilia`, CT15 |
 
-## 9. Validação com usuários (aceitação)
+## 9. Pré-teste interno (antes da validação)
+
+Em 17/11/2026 foi feito um teste exploratório no site publicado, com apoio de IA simulando
+5 perfis de usuário. Os achados e as correções estão em
+[`04-pre-teste-interno.md`](04-pre-teste-interno.md). Esse pré-teste é uma atividade de
+**verificação** e **não substitui** a validação com usuários reais descrita a seguir.
+
+## 10. Validação com usuários (aceitação)
 
 - **Quem:** 5 colegas de curso ou profissionais da área ("dublês de usuário").
 - **Como:** cada um recebe o link do site e o [formulário de teste](02-formulario-de-teste.md),
@@ -125,9 +132,9 @@ Preencha a coluna "Manual" com ✅/❌ e a data.
 - **Registro:** as 5 avaliações, as decisões tomadas e as correções feitas vão para o
   [relatório das avaliações](03-relatorio-das-avaliacoes.md), entregue em PDF.
 
-## 10. Critérios de aceite da entrega
+## 11. Critérios de aceite da entrega
 
-- 100% dos testes automatizados aprovados. ✅ (110/110)
+- 100% dos testes automatizados aprovados. ✅ (119/119)
 - Nenhum defeito de severidade alta em aberto.
 - Casos CT01–CT27 executados manualmente no site publicado.
 - 5 avaliações recebidas e analisadas; cada problema relatado com decisão registrada (corrigido, não reproduzido ou adiado com justificativa).

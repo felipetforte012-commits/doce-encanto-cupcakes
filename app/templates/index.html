@@ -2,9 +2,15 @@
 {% block title %}Vitrine de Cupcakes{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Nossa vitrine 🧁</h1>
+{% set filtro_ativo = categoria_id or sabor or preco_max %}
+<h1 class="mb-3">Nossa vitrine 🧁</h1>
 
-<form method="get" class="row g-2 mb-4" aria-label="Filtros da vitrine">
+{# No celular os filtros ficam recolhidos para os cupcakes aparecerem logo; no computador ficam sempre abertos. #}
+<button class="btn btn-outline-secondary w-100 mb-3 d-md-none" type="button" data-bs-toggle="collapse"
+        data-bs-target="#filtrosVitrine" aria-expanded="{{ 'true' if filtro_ativo else 'false' }}" aria-controls="filtrosVitrine">
+  🔍 Filtros{% if filtro_ativo %} (ativos){% endif %}
+</button>
+<form method="get" id="filtrosVitrine" class="row g-2 mb-4 collapse d-md-flex{% if filtro_ativo %} show{% endif %}" aria-label="Filtros da vitrine">
   <div class="col-md-3">
     <label for="filtroCategoria" class="visually-hidden">Categoria</label>
     <select id="filtroCategoria" name="categoria" class="form-select" onchange="this.form.submit()">
@@ -24,7 +30,7 @@
   </div>
   <div class="col-md-3 d-flex gap-2">
     <button class="btn btn-outline-secondary w-100" type="submit">Filtrar</button>
-    {% if categoria_id or sabor or preco_max %}
+    {% if filtro_ativo %}
       <a class="btn btn-link" href="{{ url_for('main.index') }}">Limpar</a>
     {% endif %}
   </div>
@@ -43,7 +49,7 @@
           <h2 class="card-title h5">{{ produto.nome }}</h2>
           <p class="card-text text-muted mb-1">Sabor: {{ produto.sabor }}</p>
           <p class="card-text fw-bold">{{ produto.preco|brl }} <small class="text-muted fw-normal">/ unidade</small></p>
-          <a href="{{ url_for('main.produto_detalhe', produto_id=produto.id) }}" class="btn btn-sm btn-doce mt-auto">Ver detalhes</a>
+          <a href="{{ url_for('main.produto_detalhe', produto_id=produto.id) }}" class="btn btn-sm btn-doce mt-auto">Ver detalhes<span class="visually-hidden"> do {{ produto.nome }}</span></a>
         </div>
       </div>
     </div>

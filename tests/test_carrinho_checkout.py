@@ -1,6 +1,8 @@
 """Testes de integração do carrinho (US07, US09) e do checkout (US08, US10-US12, US14, US15)."""
 from decimal import Decimal
 
+import pytest
+
 from app import db
 from app.models import ItemPedido, Pedido, Produto
 
@@ -59,9 +61,26 @@ def test_adicionar_produto_inativo_e_rejeitado(client, app, produto_id):
     assert "não está disponível" in resp.get_data(as_text=True)
 
 
-def test_adicionar_quantidade_nao_numerica_e_rejeitado(client, produto_id):
-    resp = client.post(f"/carrinho/adicionar/{produto_id}", data={"quantidade": "abc"}, follow_redirects=True)
-    assert "mínima por sabor" in resp.get_data(as_text=True)
+@pytest.mark.parametrize("quantidade, mensagem", [
+    ("1,5", "número inteiro"),
+    ("1.5", "número inteiro"),
+    ("abc", "número inteiro"),
+    ("", "número inteiro"),
+    ("-6", "mínima por sabor"),
+    ("5", "mínima por sabor"),
+])
+def test_adicionar_quantidade_invalida_mostra_mensagem_especifica(client, produto_id, quantidade, mensagem):
+    """Melhoria do pré-teste: '1,5' agora pede número inteiro em vez de 'mínimo 6'."""
+    resp = client.post(f"/carrinho/adicionar/{produto_id}", data={"quantidade": quantidade}, follow_redirects=True)
+    assert mensagem in resp.get_data(as_text=True)
+    assert _carrinho(client) == {}
+
+
+def test_atualizar_com_quantidade_decimal_pede_numero_inteiro(client, produto_id):
+    _adicionar(client, produto_id, 6)
+    resp = client.post(f"/carrinho/atualizar/{produto_id}", data={"quantidade": "7,5"}, follow_redirects=True)
+    assert "número inteiro" in resp.get_data(as_text=True)
+    assert _carrinho(client)[str(produto_id)] == 6
 
 
 # ---------- US09 - Editar / remover itens ----------

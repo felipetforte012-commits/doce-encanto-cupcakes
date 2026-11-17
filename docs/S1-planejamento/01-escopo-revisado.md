@@ -72,7 +72,7 @@ administrador da loja mantenha o catálogo e gerencie os pedidos recebidos.
 | RNF04 – Segurança | Proteção de dados e sessões | Senhas com hash, CSRF em todos os formulários, cookies HttpOnly/Secure, sem redirecionamento externo, segredos fora do código (`.env`) |
 | RNF05 – Usabilidade | Interface clara, consistente e com feedback (princípios de IHC do material) | Mensagens para toda ação, valores em R$, datas no horário de Brasília, status com nomes legíveis |
 | RNF06 – Responsividade | Uso no celular | Bootstrap 5 + menu recolhível |
-| RNF07 – Testabilidade | Front-end e back-end testados | 110 testes automatizados (pytest + Node) |
+| RNF07 – Testabilidade | Front-end e back-end testados | 119 testes automatizados (pytest + Node) |
 | RNF08 – Disponibilidade | Acesso pela internet | Render (o plano gratuito "hiberna" após 15 min sem acesso; o primeiro acesso leva ~50 s) |
 
 ## 1.7 Revisão Kaizen — o que mudou em relação à primeira versão
@@ -87,5 +87,5 @@ administrador da loja mantenha o catálogo e gerencie os pedidos recebidos.
 | 6 | Cancelamento não devolvia estoque | Regra `Pedido.cancelar()` |
 | 7 | Falhas de segurança (CSRF, open redirect, chave secreta fixa, senha admin pública) | Corrigidas (ver RNF04) |
 | 8 | Status técnicos (`em_preparo`), datas em UTC e valores com ponto | Textos legíveis, horário de Brasília e padrão R$ 0,00 |
-| 9 | Apenas 10 testes, sem checkout e sem front-end | 110 testes, incluindo JavaScript |
+| 9 | Apenas 10 testes, sem checkout e sem front-end | 119 testes, incluindo JavaScript |
 | 10 | TiDB ignora restrições CHECK (`tidb_enable_check_constraint` desligado) | Todas as regras também validadas na aplicação |

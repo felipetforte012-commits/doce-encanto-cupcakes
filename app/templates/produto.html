@@ -11,7 +11,7 @@
 
 <div class="row g-4">
   <div class="col-md-5">
-    <img src="{{ produto.foto_url or url_for('static', filename='img/cupcake.svg') }}" class="img-fluid rounded" alt="{{ produto.nome }}"
+    <img src="{{ produto.foto_url or url_for('static', filename='img/cupcake.svg') }}" class="img-fluid rounded foto-produto" alt="{{ produto.nome }}"
          onerror="this.onerror=null;this.src='{{ url_for('static', filename='img/cupcake.svg') }}';">
   </div>
   <div class="col-md-7">

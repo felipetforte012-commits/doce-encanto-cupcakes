@@ -15,6 +15,23 @@ def _get_carrinho():
     return session.setdefault("carrinho", {})
 
 
+MSG_QUANTIDADE_INTEIRA = "Digite a quantidade como um número inteiro de unidades (ex.: 6 ou 12)."
+MSG_QUANTIDADE_MINIMA = f"Quantidade mínima por sabor é {QUANTIDADE_MINIMA_POR_SABOR} unidades."  # RN07
+
+
+def _ler_quantidade():
+    """Lê o campo quantidade. Retorna (quantidade, mensagem_de_erro)."""
+    bruto = request.form.get("quantidade", "").strip()
+    if not bruto.isdigit():  # recusa "1,5", "1.5", "abc", "-6" e vazio
+        if bruto.lstrip("-").isdigit():
+            return None, MSG_QUANTIDADE_MINIMA  # número negativo: o problema é o mínimo
+        return None, MSG_QUANTIDADE_INTEIRA
+    quantidade = int(bruto)
+    if quantidade < QUANTIDADE_MINIMA_POR_SABOR:
+        return None, MSG_QUANTIDADE_MINIMA
+    return quantidade, None
+
+
 def _msg_estoque_insuficiente(produto, ja_no_carrinho=0):
     msg = f"Estoque insuficiente: temos {produto.estoque} unidade(s) de {produto.nome}"
     if ja_no_carrinho:
@@ -27,10 +44,10 @@ def adicionar_ao_carrinho(produto_id):
     """US07 - Adicionar itens ao carrinho"""
     produto = db.get_or_404(Produto, produto_id)
     voltar = redirect(url_for("main.produto_detalhe", produto_id=produto_id))
-    quantidade = request.form.get("quantidade", type=int)
+    quantidade, erro = _ler_quantidade()
 
-    if quantidade is None or quantidade < QUANTIDADE_MINIMA_POR_SABOR:
-        flash(f"Quantidade mínima por sabor é {QUANTIDADE_MINIMA_POR_SABOR} unidades.", "warning")  # RN07
+    if erro:
+        flash(erro, "warning")
         return voltar
 
     if not produto.disponivel():
@@ -65,13 +82,13 @@ def atualizar_carrinho(produto_id):
     """US09 - Editar quantidade de itens do carrinho"""
     carrinho = _get_carrinho()
     chave = str(produto_id)
-    nova_quantidade = request.form.get("quantidade", type=int)
+    nova_quantidade, erro = _ler_quantidade()
     produto = db.session.get(Produto, produto_id)
 
     if chave not in carrinho:
         flash("Este item não está no seu carrinho.", "warning")
-    elif nova_quantidade is None or nova_quantidade < QUANTIDADE_MINIMA_POR_SABOR:
-        flash(f"Quantidade mínima por sabor é {QUANTIDADE_MINIMA_POR_SABOR} unidades.", "warning")
+    elif erro:
+        flash(erro, "warning")
     elif produto is None or not produto.disponivel():
         flash("Este produto não está mais disponível. Remova-o do carrinho.", "warning")
     elif not produto.tem_estoque_para(nova_quantidade):

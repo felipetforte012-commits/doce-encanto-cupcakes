@@ -47,6 +47,26 @@ def test_formularios_do_admin_tem_token_csrf(client, admin_logado):
             assert 'name="csrf_token"' in form, url
 
 
+def test_filtros_recolhiveis_no_celular_e_abertos_quando_ativos(client):
+    """Melhoria do pré-teste: no celular os filtros ocupavam meia tela."""
+    html = client.get("/").get_data(as_text=True)
+    assert 'data-bs-target="#filtrosVitrine"' in html
+    assert 'id="filtrosVitrine" class="row g-2 mb-4 collapse d-md-flex"' in html  # recolhido
+    filtrado = client.get("/?sabor=bau").get_data(as_text=True)
+    assert "collapse d-md-flex show" in filtrado and "Filtros (ativos)" in filtrado
+
+
+def test_link_ver_detalhes_informa_o_produto_para_leitor_de_tela(client):
+    html = client.get("/").get_data(as_text=True)
+    assert 'Ver detalhes<span class="visually-hidden"> do Cupcake Teste</span>' in html
+
+
+def test_foto_do_produto_limitada_no_celular(client, produto_id):
+    assert "foto-produto" in client.get(f"/produto/{produto_id}").get_data(as_text=True)
+    css = client.get("/static/css/style.css").get_data(as_text=True)
+    assert "max-height: 35vh" in css
+
+
 def test_preco_aparece_em_reais_no_formato_brasileiro(client):
     assert "R$ 6,00" in client.get("/").get_data(as_text=True)
 
