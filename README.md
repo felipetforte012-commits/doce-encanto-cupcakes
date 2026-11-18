@@ -9,6 +9,8 @@ Software II** — Cruzeiro do Sul Virtual.
 - **Site publicado:** <https://doce-encanto-cupcakes.onrender.com> (o primeiro acesso pode levar ~1 min)
 - **Documentação completa (S1, S2, S3):** [`docs/`](docs/README.md)
 - **Manual de uso:** [`docs/S2-desenvolvimento/manual-de-uso.md`](docs/S2-desenvolvimento/manual-de-uso.md)
+- **Vídeo 1 – Demonstração do sistema (narrado, 5:04):** <https://youtu.be/H0iX2982atU>
+- **Vídeo 2 – Modificações após os testes (4:56):** <https://youtu.be/YTJZzke5LDA>
 
 ## Stack técnico
 

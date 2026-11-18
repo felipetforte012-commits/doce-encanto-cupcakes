@@ -37,4 +37,6 @@ Código-fonte: [`app/`](../app/) (MVC) · Testes: [`tests/`](../tests/).
 
 ## Vídeos
 
-[Roteiro dos vídeos](roteiro-do-video.md): demonstração (≈ 5 min) e mudanças adotadas.
+- **Vídeo 1 – Demonstração narrada (5:04):** <https://youtu.be/H0iX2982atU>
+- **Vídeo 2 – Modificações após os testes (4:56):** <https://youtu.be/YTJZzke5LDA>
+- [Roteiro dos vídeos](roteiro-do-video.md)
